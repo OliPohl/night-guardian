@@ -1,14 +1,15 @@
-import {app, BrowserWindow, screen} from 'electron';
+import {app, BrowserWindow, screen, ipcMain} from 'electron';
 import path from 'path';
 import { isDev } from './utils.js';
 import { getPreloadPath } from './path-resolver.js';
 
+let mainWindow: BrowserWindow | null;
 app.on('ready', () => {
   // Get the primary display's width and height
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
 
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     backgroundColor: "#0e0f17",
     frame: false,
     width: Math.round(screenWidth * (2 / 3)),
@@ -34,4 +35,23 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+// Hide the app into the dock
+ipcMain.on('minimize-window', () => {
+  mainWindow?.minimize();
+});
+
+// Toggle maximize the window
+ipcMain.on('maximize-window', () => {
+  if (mainWindow?.isMaximized()) {
+    mainWindow?.unmaximize();
+  } else {
+    mainWindow?.maximize();
+  }
+});
+
+// Close the window
+ipcMain.on('close-window', () => {
+  mainWindow?.close();
 });

@@ -1,8 +1,7 @@
 import { FC } from 'react';
 import "./Titlebar.css";
-import hideIcon from './resources/hide.svg'
-import maximizeIcon from './resources/maximize.svg'
 import minimizeIcon from './resources/minimize.svg'
+import maximizeIcon from './resources/maximize.svg'
 import closeIcon from './resources/close.svg'
 
 const Titlebar: FC = () => {
@@ -10,16 +9,13 @@ const Titlebar: FC = () => {
     <div className="titlebar">
       <h1 className="titlebar-heading">Night Guardian</h1>
       <div className="titlebar-buttons">
-        <div id="titlebar-hide" className="titlebar-button">
-          <img src={hideIcon} alt="Hide" />
-        </div>
-        <div id="titlebar-maximize" className="titlebar-button">
-          <img src={maximizeIcon} alt="Maximize" />
-        </div>
-        <div id="titlebar-minimize" className="titlebar-button hidden">
+        <div id="titlebar-minimize" className="titlebar-button" onClick={() => window.api.minimizeWindow()}>
           <img src={minimizeIcon} alt="Minimize" />
         </div>
-        <div id="titlebar-close" className="titlebar-button">
+        <div id="titlebar-maximize" className="titlebar-button" onClick={() => window.api.maximizeWindow()}>
+          <img src={maximizeIcon} alt="Maximize" />
+        </div>
+        <div id="titlebar-close" className="titlebar-button" onClick={() => window.api.closeWindow()}>
           <img src={closeIcon} alt="Close" />
         </div>
       </div>
