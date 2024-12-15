@@ -28,14 +28,25 @@ app.on('ready', () => {
   } else {
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));
   }
+
+  // Quit when all windows are closed.
+  app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
+
+  // When the window is maximized, send the status to the renderer process
+  mainWindow.on('maximize', () => {
+    mainWindow?.webContents.send('window-maximize-status', true);
+  });
+
+  // When the window is unmaximized, send the status to the renderer process
+  mainWindow.on('unmaximize', () => {
+    mainWindow?.webContents.send('window-maximize-status', false);
+  });
 });
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
 
 // Hide the app into the dock
 ipcMain.on('minimize-window', () => {
