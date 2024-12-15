@@ -22,7 +22,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["../src"],
+  "include": ["../src", "../src/renderer/vite-env.d.ts"],
   "exclude": ["../src/main"]
 }
 
