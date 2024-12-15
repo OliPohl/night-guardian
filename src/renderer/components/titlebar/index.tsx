@@ -1,11 +1,11 @@
-import React from 'react';
+import { FC } from 'react';
 import "./Titlebar.css";
 import hideIcon from './resources/hide.svg'
 import maximizeIcon from './resources/maximize.svg'
 import minimizeIcon from './resources/minimize.svg'
 import closeIcon from './resources/close.svg'
 
-const Titlebar: React.FC = () => {
+const Titlebar: FC = () => {
   return (
     <div className="titlebar">
       <h1 className="titlebar-heading">Night Guardian</h1>
