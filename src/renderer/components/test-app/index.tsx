@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import reactLogo from './react-logo.svg'
 import './test-app.css'
 
