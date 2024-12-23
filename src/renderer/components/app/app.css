@@ -1,0 +1,30 @@
+#app {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+#main {
+  flex:1;
+  margin: 5px 20px 20px 20px;
+}
+
+#sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 5px 20px 20px 0;
+}
+
+#logo {
+  object-fit: contain;
+}
+
+#description {
+  flex-grow:1;
+  text-align: center;
+}
+
+.info-text {
+  color:rgb(145, 145, 145);
+}

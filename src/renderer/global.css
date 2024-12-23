@@ -1,0 +1,109 @@
+/* General Style */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  user-select: none;
+
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: white;
+  font-size: 14px;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+/* Modern Scrollbar */
+.scrollable {
+  overflow-y: auto !important;
+}
+.scrollable > * {
+  overflow: visible !important;
+}
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+}
+.scrollable::-webkit-scrollbar-track {
+  background: #0000001a;
+  border-radius: 10px;
+}
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #cdfffa32;
+  border-radius: 10px;
+}
+
+
+/* Base Design */
+.main-background {
+  background: #2c303d;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 10px 15px;
+  background: #3a3f50;
+}
+
+/* Base Buttons */
+.button {
+  background: #4b9d1e;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  transition: background 0.2s ease;
+}
+.button:hover {
+  background: #3a7b17;
+}
+.button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  object-fit: contain;
+}
+.button p {
+  color: #cdfffa;
+  font-size: 16px;
+}
+
+.button-side-color {
+  background: #707070 !important;
+}
+.button-side-color:hover {
+  background: #505050 !important;
+}
+
+/* Divider */
+.big-divider {
+  min-height: 1px;
+  background: #b6b8bd;
+  margin: 15px 0;
+}
+
+.small-divider {
+  min-height: 1px;
+  background: #757985;
+  margin: 15px 0;
+}

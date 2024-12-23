@@ -1,4 +1,4 @@
-import {app, BrowserWindow, screen, ipcMain} from 'electron';
+import {app, BrowserWindow, screen, ipcMain, shell} from 'electron';
 import path from 'path';
 import { isDev } from './utils.js';
 import { getPreloadPath } from './path-resolver.js';
@@ -10,7 +10,7 @@ app.on('ready', () => {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    backgroundColor: "#0e0f17",
+    backgroundColor: "#2c303d",
     frame: false,
     width: Math.round(screenWidth * (2 / 3)),
     height: Math.round(screenHeight * (2 / 3)),
@@ -20,7 +20,7 @@ app.on('ready', () => {
   });
 
   // Set the minimum size of the window
-  mainWindow.setMinimumSize(640, 360);
+  mainWindow.setMinimumSize(960, 540);
 
   // Load the index.html or use the local server for comfy development
   if (isDev()) {
@@ -65,4 +65,9 @@ ipcMain.on('maximize-window', () => {
 // Close the window
 ipcMain.on('close-window', () => {
   mainWindow?.close();
+});
+
+// Open the GitHub repository
+ipcMain.on('open-github', () => {
+  shell.openExternal('https://github.com/OliPohl/night-guardian');
 });

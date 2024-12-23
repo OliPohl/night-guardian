@@ -7,6 +7,7 @@ declare global {
       maximizeWindow: () => void;
       closeWindow: () => void;
       onMaximize: (callback: (isMaximized: boolean) => void) => void;
+      openGitHub: () => void;
     };
   }
 }

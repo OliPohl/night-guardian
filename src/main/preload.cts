@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('api', {
   maximizeWindow: () => ipcRenderer.send('maximize-window'),
   closeWindow: () => ipcRenderer.send('close-window'),
   onMaximize: (callback: (isMaximized: boolean) => void) => ipcRenderer.on('window-maximize-status', (event, isMaximized) => callback(isMaximized)),
+  openGitHub: () => ipcRenderer.send('open-github'),
 });
