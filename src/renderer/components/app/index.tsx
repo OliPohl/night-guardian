@@ -1,12 +1,11 @@
 import './app.css';
 import Sidebar from '../sidebar';
+import Display from '../display';
 
 function App() {
   return (
     <div id="app">
-      <div id="main" className="panel scrollable">
-        Main
-      </div>
+      <Display />
       <Sidebar />
     </div>
   );

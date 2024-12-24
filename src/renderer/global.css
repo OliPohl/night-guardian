@@ -28,6 +28,10 @@
   align-items: center;
 }
 
+.center {
+  align-self: center;
+}
+
 
 /* Modern Scrollbar */
 .scrollable {
@@ -68,6 +72,7 @@
   border-radius: 5px;
   padding: 5px 10px;
   margin: 5px;
+  max-width: fit-content;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -95,10 +100,27 @@
   background: #505050 !important;
 }
 
+.img-button {
+  width: 30px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+.img-button:hover {
+  filter: brightness(0.8);
+}
+
+
 /* Divider */
 .big-divider {
-  min-height: 1px;
+  min-height: 2.5px;
   background: #b6b8bd;
+  margin: 15px 0;
+}
+
+.medium-divider {
+  min-height: 1.5px;
+  background: #757985;
   margin: 15px 0;
 }
 
@@ -106,4 +128,12 @@
   min-height: 1px;
   background: #757985;
   margin: 15px 0;
+}
+
+/* fonts */
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px 0;
+  color: #cdfffa;
 }

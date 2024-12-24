@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-274,0)">
+        <g id="search-button" transform="matrix(1.17295,0,0,1.46065,258.895,8.55779)">
+            <rect x="12.877" y="-5.859" width="218.254" height="175.265" style="fill:none;"/>
+            <g transform="matrix(1.32851,0.502559,-0.363324,0.619347,-307.996,-156.577)">
+                <path d="M351.5,27C336.46,43.25 324.25,81.344 324.25,124.5C324.25,167.656 336.46,205.75 351.5,222C321.421,222 297,178.312 297,124.5C297,70.688 321.421,27 351.5,27Z" style="fill:rgb(75,157,30);"/>
+            </g>
+            <g transform="matrix(-1.29682,-0.553365,0.400053,-0.604574,536.177,334.702)">
+                <path d="M351.5,27C336.46,43.25 324.25,81.344 324.25,124.5C324.25,167.656 336.46,205.75 351.5,222C321.421,222 297,178.312 297,124.5C297,70.688 321.421,27 351.5,27Z" style="fill:rgb(75,157,30);"/>
+            </g>
+        </g>
+    </g>
+</svg>

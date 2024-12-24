@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 256 256" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <rect id="add-button" x="0" y="0" width="256" height="256" style="fill:none;"/>
+    <g id="add-button1" serif:id="add-button">
+        <g transform="matrix(1,0,0,1,1,2)">
+            <path d="M101,143.587L17,143.587C9.825,143.587 4,137.762 4,130.587L4,104.587C4,97.412 9.825,91.587 17,91.587L101,91.587L101,16C101,8.825 106.825,3 114,3L140,3C147.175,3 153,8.825 153,16L153,91.587L237,91.587C244.175,91.587 250,97.412 250,104.587L250,130.587C250,137.762 244.175,143.587 237,143.587L153,143.587L153,236C153,243.175 147.175,249 140,249L114,249C106.825,249 101,243.175 101,236L101,143.587Z" style="fill:rgb(205,255,250);"/>
+        </g>
+    </g>
+</svg>
