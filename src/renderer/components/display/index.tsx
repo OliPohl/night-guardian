@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import './display.css';
 
+import { Guardian } from '../../types/guardian';
+import DisplayItem from './display-item';
+
 import searchButton from './resources/search-button.svg';
 import addButton from './resources/add-button.svg';
 
@@ -21,6 +24,18 @@ function Display() {
     }
   }, [isSpinning]);
 
+    // Sample Guardian object
+    const sampleGuardian: Guardian = {
+      name: 'Guardian',
+      alarm: '23:00',
+      repeats: 'Mon-Fri',
+      warning: '5 min',
+      snooze: 'Unlimited',
+      delay: '30 min',
+      difficulty: 'Medium',
+      active: true,
+    };
+
   return (
     <div id="display" className="panel scrollable">
       <img id="search-button" className={`img-button ${isSpinning ? 'spin' : ''}`} src={searchButton} alt="search button" title="Search for Guardians" onClick={handleSearchButtonClick} />
@@ -33,6 +48,7 @@ function Display() {
         <h1>Difficulty</h1>
       </div>
       <div className="big-divider"></div>
+      <DisplayItem {...sampleGuardian} />
       <div className="button center">
         <img src={addButton} alt="add button" />
         <p>Add Guardian</p>

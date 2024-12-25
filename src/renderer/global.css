@@ -113,13 +113,13 @@
 
 /* Divider */
 .big-divider {
-  min-height: 2.5px;
+  min-height: 3px;
   background: #b6b8bd;
   margin: 15px 0;
 }
 
 .medium-divider {
-  min-height: 1.5px;
+  min-height: 3px;
   background: #757985;
   margin: 15px 0;
 }
@@ -130,7 +130,7 @@
   margin: 15px 0;
 }
 
-/* fonts */
+/* Fonts */
 h1 {
   font-size: 20px;
   font-weight: 600;
