@@ -28,11 +28,11 @@ function Display() {
     const sampleGuardian: Guardian = {
       name: 'Guardian',
       alarm: '23:00',
-      repeats: 'Mon-Fri',
-      warning: '5 min',
-      snooze: 'Unlimited',
-      delay: '30 min',
-      difficulty: 'Medium',
+      repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      warning: 5,
+      snooze: -1,
+      delay: 30,
+      difficulty: 2,
       active: true,
     };
 
@@ -49,6 +49,10 @@ function Display() {
       </div>
       <div className="big-divider"></div>
       <DisplayItem {...sampleGuardian} />
+      <DisplayItem {...sampleGuardian} />
+      <DisplayItem {...sampleGuardian} />
+      <DisplayItem {...sampleGuardian} />
+
       <div className="button center">
         <img src={addButton} alt="add button" />
         <p>Add Guardian</p>

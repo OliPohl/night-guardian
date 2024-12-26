@@ -1,17 +1,45 @@
 #display-item {
   display: flex;
   flex-direction: row;
-
+  align-items: center;
+  min-height: 50px;
 }
 
 .item-text {
+  min-width: 15%;
   width: 15%;
+  max-width: 15%;
   text-align: center;
   font-size: 22px;
 }
 
+#item-repeats {
+  min-width: 15%;
+  width: 15%;
+  max-width: 15%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#item-repeats > p {
+  margin: 0;
+  font-size: 22px;
+}
+
+#item-repeats > img {
+  width: 20px;
+  object-fit: contain;
+  margin: 2px;
+  filter:grayscale(100%) brightness(5);
+}
+
 #item-toggle {
   min-width: 7%;
+  width: 7%;
+  max-width: 7%;
   align-self: center;
   display: flex;
   align-items: center;
@@ -29,6 +57,7 @@
   opacity: 0;
   width: 0;
   height: 0;
+  position: absolute;
 }
 .slider {
   position: absolute;
@@ -40,7 +69,6 @@
   border-radius: 34px;
   background-color: #8d8d8d;
   -webkit-transition: .4s;
-  transition: .4s;
 }
 .slider:before {
   position: absolute;
@@ -50,15 +78,15 @@
   border-radius: 34px;
   background-color: white;
   -webkit-transition: .4s;
-  transition: .4s;
+}
+.slider:hover:before {
+  background-color: #dbdbdb;
 }
 input:checked + .slider {
   background-color: #3a7b17;
 }
 input:checked + .slider:before {
   -webkit-transform: translateX(25px);
-  -ms-transform: translateX(25px);
-  transform: translateX(25px);
 }
 
 #item-dots {
@@ -66,8 +94,61 @@ input:checked + .slider:before {
   height: 32px;
   object-fit: contain;
   cursor: pointer;
-  transition: filter 0.2s ease;
+  transition: filter 0.4s ease;
 }
 #item-dots:hover {
-  filter: brightness(0.7);
+  filter: brightness(0.85);
+}
+
+@media (max-width: 1200px) {
+  #display-item {
+    min-height: 40px;
+  }
+  .item-text {
+    font-size: 18px;
+  }
+  #item-repeats > img {
+    width: 15px;
+  }
+  #item-repeats > p {
+    font-size: 18px;
+  }
+  .toggle {
+    width: 30px;
+    height: 15px;
+  }
+  .slider::before {
+    width: 15px;
+    height: 15px;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(15px);
+  }
+  #item-dots {
+    height: 25px;
+  }
+}
+
+#dots-menu {
+  position: absolute;
+  background-color: #252936;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+#dots-menu p {
+  color: white;
+  font-size: 16px;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  transition: background-color 0.4s ease;
+}
+#dots-menu p:hover {
+  background-color: #1f222d;
+}
+#dots-remove {
+  color: #ff5b42 !important;
 }

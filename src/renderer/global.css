@@ -19,6 +19,14 @@
 
 .hidden {
   display: none !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+.opacity-hidden {
+  opacity: 0 !important;
+  cursor: default !important;
+  pointer-events: none !important;
 }
 
 .row {
@@ -77,10 +85,10 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transition: background 0.2s ease;
+  transition: background 0.4s ease;
 }
 .button:hover {
-  background: #3a7b17;
+  background: #45901c;
 }
 .button img {
   width: 20px;
@@ -104,10 +112,10 @@
   width: 30px;
   object-fit: contain;
   cursor: pointer;
-  transition: filter 0.2s ease;
+  transition: filter 0.4s ease;
 }
 .img-button:hover {
-  filter: brightness(0.8);
+  filter: brightness(0.85);
 }
 
 
@@ -136,4 +144,9 @@ h1 {
   font-weight: 600;
   margin: 10px 0;
   color: #cdfffa;
+}
+@media screen and (max-width: 1200px) {
+  h1 {
+    font-size: 18px;
+  }
 }
