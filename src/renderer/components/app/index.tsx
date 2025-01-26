@@ -13,7 +13,7 @@ function App() {
     warning: 15,
     snooze: -1,
     extension: 30,
-    difficulty: 2,
+    equation: 2,
     active: true,
   };
 

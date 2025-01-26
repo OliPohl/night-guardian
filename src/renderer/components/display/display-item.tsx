@@ -17,8 +17,8 @@ function DisplayItem(item: Guardian) {
   const menuRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<HTMLImageElement>(null);
 
-  const getDifficultyText = (difficulty: number): string => {
-    switch (difficulty) {
+  const getEquationText = (equation: number): string => {
+    switch (equation) {
       case 1:
         return 'Easy';
       case 2:
@@ -97,7 +97,7 @@ function DisplayItem(item: Guardian) {
         <p className="item-text">{item.warning} min</p>
         <p className="item-text">{getSnoozeText(item.snooze)}</p>
         <p className="item-text">{item.extension} min</p>
-        <p className="item-text">{getDifficultyText(item.equation)}</p>
+        <p className="item-text">{getEquationText(item.equation)}</p>
         <div id="item-toggle">
           <label className="toggle">
             <input type="checkbox"></input>

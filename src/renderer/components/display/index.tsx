@@ -40,12 +40,12 @@ function Display() {
     <div id="display" className="panel scrollable">
       <img id="search-button" className={`img-button ${isSpinning ? 'spin' : ''}`} src={searchButton} alt="search button" title="Search for Guardians" onClick={handleSearchButtonClick} />
       <div id="heading">
-        <h1>Alarm</h1>
-        <h1>Repeats</h1>
-        <h1>Warning</h1>
-        <h1>Snooze</h1>
-        <h1>Extension</h1>
-        <h1>Equation</h1>
+        <h1 title="Time the Guardian will shut down your PC if not snoozed">Alarm</h1>
+        <h1 title="Weekdays the Guardian repeats">Repeats</h1>
+        <h1 title="Time before the alarm when the guardian will prompt to snooze or acknowledge">Warning</h1>
+        <h1 title="Number of times the guardian can be delayed before forcing shutdown">Snooze</h1>
+        <h1 title="Time added when snooze is selected">Extension</h1>
+        <h1 title="Difficulty of the equation to extend time">Equation</h1>
       </div>
       <div className="big-divider"></div>
       <DisplayItem {...sampleGuardian} />

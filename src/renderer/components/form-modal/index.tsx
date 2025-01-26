@@ -34,7 +34,7 @@ function FormModal(item: Guardian) {
               <img src={alarmDown} alt="Down" />
             </div>
           </div>
-          <img id="fm-alarm-colon" src={alarmColon} alt=":" />
+          <img id="fm-alarm-colon" src={alarmColon} alt=":" title="Time the Guardian will shut down your PC if not snoozed" />
           <div id="fm-alarm-minutes" className="fm-alarm-wrapper">
             <div className="fm-alarm-up fm-alarm-arrow">
               <img src={alarmUp} alt="Up" />
@@ -47,17 +47,17 @@ function FormModal(item: Guardian) {
         </div>
 
         <div id="fm-repeats">
-          <img src={repeatsMonday} alt="Monday" className=" " />
-          <img src={repeatsTuesday} alt="Tuesday" className="fm-repeats-active" />
-          <img src={repeatsWednesday} alt="Wednesday" className="fm-repeats-active" />
-          <img src={repeatsThursday} alt="Thursday" className="fm-repeats-active" />
-          <img src={repeatsFriday} alt="Friday" className="fm-repeats-active" />
-          <img src={repeatsSaturday} alt="Saturday" className="fm-repeats-active" />
-          <img src={repeatsSunday} alt="Sunday" className="fm-repeats-active" />
+          <img src={repeatsMonday} alt="Monday" className=" " title="Repeats every Monday if active" />
+          <img src={repeatsTuesday} alt="Tuesday" className="fm-repeats-active" title="Repeats every Tuesday if active" />
+          <img src={repeatsWednesday} alt="Wednesday" className="fm-repeats-active" title="Repeats every Wednesday if active" />
+          <img src={repeatsThursday} alt="Thursday" className="fm-repeats-active" title="Repeats every Thursday if active" />
+          <img src={repeatsFriday} alt="Friday" className="fm-repeats-active" title="Repeats every Friday if active" />
+          <img src={repeatsSaturday} alt="Saturday" className="fm-repeats-active" title="Repeats every Saturday if active" />
+          <img src={repeatsSunday} alt="Sunday" className="fm-repeats-active" title="Repeats every Sunday if active" />
         </div>
 
         <div id="fm-warning" className="fm-dropdown-wrapper">
-          <h2>Warning:</h2>
+          <h2 title="Time before the alarm when the guardian will prompt to snooze or acknowledge">Warning:</h2>
           <div className="fm-dropdown">
             <p>15 min</p>
             <div className="fm-dropdown-flag">
@@ -82,7 +82,7 @@ function FormModal(item: Guardian) {
         </div>
 
         <div id="fm-snooze" className="fm-dropdown-wrapper">
-          <h2>Snooze:</h2>
+          <h2 title="Number of times the guardian can be delayed before forcing shutdown">Snooze:</h2>
           <div className="fm-dropdown">
             <p>Unlimited</p>
             <div className="fm-dropdown-flag">
@@ -100,9 +100,9 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-        <div id="fm-extension" className="fm-dropdown-wrapper fm-disabled">
-          <h2>Extension:</h2>
-          <div className="fm-dropdown">
+        <div id="fm-extension" className="fm-dropdown-wrapper">
+          <h2 title="Time added when snooze is selected - requires at least one snooze">Extension:</h2>
+          <div className="fm-dropdown fm-disabled">
             <p>None</p>
             <div className="fm-dropdown-flag">
               <img src={dropdownArrow} alt="Open" />
@@ -125,7 +125,7 @@ function FormModal(item: Guardian) {
         </div>
 
         <div id="fm-equation" className="fm-dropdown-wrapper">
-          <h2>Equation:</h2>
+          <h2 title="Difficulty of the equation to extend time - requires at least one snooze">Equation:</h2>
           <div className="fm-dropdown">
             <p>Easy</p>
             <div className="fm-dropdown-flag">
