@@ -31,7 +31,7 @@ function Display() {
       repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       warning: 5,
       snooze: -1,
-      delay: 30,
+      extension: 30,
       difficulty: 2,
       active: true,
     };
@@ -44,7 +44,7 @@ function Display() {
         <h1>Repeats</h1>
         <h1>Warning</h1>
         <h1>Snooze</h1>
-        <h1>Delay</h1>
+        <h1>Extension</h1>
         <h1>Difficulty</h1>
       </div>
       <div className="big-divider"></div>

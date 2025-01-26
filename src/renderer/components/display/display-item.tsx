@@ -96,7 +96,7 @@ function DisplayItem(item: Guardian) {
         </div>
         <p className="item-text">{item.warning} min</p>
         <p className="item-text">{getSnoozeText(item.snooze)}</p>
-        <p className="item-text">{item.delay} min</p>
+        <p className="item-text">{item.extension} min</p>
         <p className="item-text">{getDifficultyText(item.difficulty)}</p>
         <div id="item-toggle">
           <label className="toggle">

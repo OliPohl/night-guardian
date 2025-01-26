@@ -4,7 +4,7 @@ export interface Guardian {
   repeats: Array<string>;
   warning: number;
   snooze: number;
-  delay: number;
+  extension: number;
   difficulty: number;
   active: boolean;
 }
