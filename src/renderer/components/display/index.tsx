@@ -32,7 +32,7 @@ function Display() {
       warning: 5,
       snooze: -1,
       extension: 30,
-      difficulty: 2,
+      equation: 2,
       active: true,
     };
 
@@ -45,7 +45,7 @@ function Display() {
         <h1>Warning</h1>
         <h1>Snooze</h1>
         <h1>Extension</h1>
-        <h1>Difficulty</h1>
+        <h1>Equation</h1>
       </div>
       <div className="big-divider"></div>
       <DisplayItem {...sampleGuardian} />

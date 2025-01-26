@@ -5,6 +5,6 @@ export interface Guardian {
   warning: number;
   snooze: number;
   extension: number;
-  difficulty: number;
+  equation: number;
   active: boolean;
 }

@@ -64,6 +64,7 @@ function FormModal(item: Guardian) {
               <img src={dropdownArrow} alt="Open" />
             </div>
             <div className="fm-dropdown-content scrollable hidden">
+              <p>None</p>
               <p>5 min</p>
               <p>10 min</p>
               <p>15 min</p>
@@ -123,8 +124,8 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-        <div id="fm-difficulty" className="fm-dropdown-wrapper">
-          <h2>Difficulty:</h2>
+        <div id="fm-equation" className="fm-dropdown-wrapper">
+          <h2>Equation:</h2>
           <div className="fm-dropdown">
             <p>Easy</p>
             <div className="fm-dropdown-flag">

@@ -97,7 +97,7 @@ function DisplayItem(item: Guardian) {
         <p className="item-text">{item.warning} min</p>
         <p className="item-text">{getSnoozeText(item.snooze)}</p>
         <p className="item-text">{item.extension} min</p>
-        <p className="item-text">{getDifficultyText(item.difficulty)}</p>
+        <p className="item-text">{getDifficultyText(item.equation)}</p>
         <div id="item-toggle">
           <label className="toggle">
             <input type="checkbox"></input>
