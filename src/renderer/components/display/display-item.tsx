@@ -106,22 +106,22 @@ function DisplayItem(item: Guardian) {
   return (
     <div id={item.name}>
       <div className="display-item">
-        <p className="item-text">{item.alarm}</p>
-        <div className="item-repeats-container">
+        <p className="item-text" title="Time the Guardian will shut down your PC if not snoozed">{item.alarm}</p>
+        <div className="item-repeats-container" title="Weekdays the Guardian repeats">
           <div id="item-repeats" className={`ir-${item.repeats.length}`}>
             {item.repeats.length > 0 ? (
               item.repeats.map((day) => (
-                <img key={day} src={weekdayIcons[day]} alt={day} title={day} />
+                <img key={day} src={weekdayIcons[day]} alt={day} title={"Repeats every " + day} />
               ))
             ) : (
               <p>None</p>
             )}
           </div>
         </div>
-        <p className="item-text">{item.warning} min</p>
-        <p className="item-text">{getSnoozeText(item.snooze)}</p>
-        <p className="item-text">{item.extension} min</p>
-        <p className="item-text">{getEquationText(item.equation)}</p>
+        <p className="item-text" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">{item.warning} min</p>
+        <p className="item-text" title="Number of times the guardian can be delayed before forcing shutdown">{getSnoozeText(item.snooze)}</p>
+        <p className="item-text" title="Time added when snooze is selected">{item.extension} min</p>
+        <p className="item-text" title="Difficulty of the equation to extend time">{getEquationText(item.equation)}</p>
         <div id="item-toggle">
           <label className="toggle">
             <input id="checkbox" type="checkbox" checked={active} onChange={handleCheckboxChange}></input>

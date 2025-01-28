@@ -43,7 +43,7 @@ function FormModal(item: Guardian) {
       <div id="fm-window" className="panel scrollable">
         <h2>{item.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
-        <div id="fm-alarm">
+        <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed">
           <div id="fm-alarm-hours" className="fm-alarm-wrapper">
             <div className="fm-alarm-up fm-alarm-arrow">
               <img src={alarmUp} alt="Up" />
@@ -53,7 +53,7 @@ function FormModal(item: Guardian) {
               <img src={alarmDown} alt="Down" />
             </div>
           </div>
-          <img id="fm-alarm-colon" src={alarmColon} alt=":" title="Time the Guardian will shut down your PC if not snoozed" />
+          <img id="fm-alarm-colon" src={alarmColon} alt=":" />
           <div id="fm-alarm-minutes" className="fm-alarm-wrapper">
             <div className="fm-alarm-up fm-alarm-arrow">
               <img src={alarmUp} alt="Up" />
@@ -75,8 +75,8 @@ function FormModal(item: Guardian) {
           <img src={repeatsSunday} alt="Sunday" className="fm-repeats-active" title="Repeats every Sunday if active" />
         </div>
 
-        <div id="fm-warning" className="fm-dropdown-wrapper">
-          <h2 title="Time before the alarm when the guardian will prompt to snooze or acknowledge">Warning:</h2>
+        <div id="fm-warning" className="fm-dropdown-wrapper" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">
+          <h2>Warning:</h2>
           <div className="fm-dropdown">
             <p>15 min</p>
             <div className="fm-dropdown-flag">
@@ -100,8 +100,8 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-        <div id="fm-snooze" className="fm-dropdown-wrapper">
-          <h2 title="Number of times the guardian can be delayed before forcing shutdown">Snooze:</h2>
+        <div id="fm-snooze" className="fm-dropdown-wrapper" title="Number of times the guardian can be delayed before forcing shutdown">
+          <h2>Snooze:</h2>
           <div className="fm-dropdown">
             <p>Unlimited</p>
             <div className="fm-dropdown-flag">
@@ -119,8 +119,8 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-        <div id="fm-extension" className="fm-dropdown-wrapper">
-          <h2 title="Time added when snooze is selected - requires at least one snooze">Extension:</h2>
+        <div id="fm-extension" className="fm-dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze">
+          <h2>Extension:</h2>
           <div className="fm-dropdown fm-disabled">
             <p>None</p>
             <div className="fm-dropdown-flag">
@@ -143,8 +143,8 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-        <div id="fm-equation" className="fm-dropdown-wrapper">
-          <h2 title="Difficulty of the equation to extend time - requires at least one snooze">Equation:</h2>
+        <div id="fm-equation" className="fm-dropdown-wrapper" title="Difficulty of the equation to extend time - requires at least one snooze">
+          <h2>Equation:</h2>
           <div className="fm-dropdown">
             <p>Easy</p>
             <div className="fm-dropdown-flag">
