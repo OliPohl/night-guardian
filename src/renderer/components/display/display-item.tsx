@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import { Guardian } from '../../types/guardian.ts';
+import FormModal from '../form-modal';
 import './display-item.css';
 
 import itemDots from './resources/item-dots.svg';
@@ -16,6 +18,7 @@ function DisplayItem(item: Guardian) {
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
   const menuRef = useRef<HTMLDivElement>(null);
   const dotsRef = useRef<HTMLImageElement>(null);
+  const [active, setActive] = useState(item.active);
 
   const getEquationText = (equation: number): string => {
     switch (equation) {
@@ -70,8 +73,27 @@ function DisplayItem(item: Guardian) {
     }
   };
 
-  const handleMenuOptionClick = () => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.checked;
+    setActive(newValue);
+    console.log(`Guardian ${item.name} is now ${newValue ? 'active' : 'inactive'}`);
+  };
+
+  const removeGuardian = () => {
     setMenuVisible(false);
+    const itemElement = document.getElementById(item.name);
+    if (itemElement) {
+      itemElement.remove();
+    }
+  };
+
+  const editGuardian = () => {
+    setMenuVisible(false);
+    const fmElement = document.getElementById('form-modal-container');
+    if (fmElement) {
+      const root = createRoot(fmElement);
+      root.render(<FormModal {...item} />);
+    }
   };
 
   useEffect(() => {
@@ -82,17 +104,19 @@ function DisplayItem(item: Guardian) {
   }, []);
 
   return (
-    <>
-      <div id="display-item">
+    <div id={item.name}>
+      <div className="display-item">
         <p className="item-text">{item.alarm}</p>
-        <div id="item-repeats">
-          {item.repeats.length > 0 ? (
-            item.repeats.map((day) => (
-              <img key={day} src={weekdayIcons[day]} alt={day} title={day} />
-            ))
-          ) : (
-            <p>None</p>
-          )}
+        <div className="item-repeats-container">
+          <div id="item-repeats" className={`ir-${item.repeats.length}`}>
+            {item.repeats.length > 0 ? (
+              item.repeats.map((day) => (
+                <img key={day} src={weekdayIcons[day]} alt={day} title={day} />
+              ))
+            ) : (
+              <p>None</p>
+            )}
+          </div>
         </div>
         <p className="item-text">{item.warning} min</p>
         <p className="item-text">{getSnoozeText(item.snooze)}</p>
@@ -100,21 +124,20 @@ function DisplayItem(item: Guardian) {
         <p className="item-text">{getEquationText(item.equation)}</p>
         <div id="item-toggle">
           <label className="toggle">
-            <input type="checkbox"></input>
+            <input id="checkbox" type="checkbox" checked={active} onChange={handleCheckboxChange}></input>
             <span className="slider"></span>
           </label>
         </div>
         <img id="item-dots" ref={dotsRef} src={itemDots} alt="edit" onClick={handleDotsClick} />
         <div id="dots-menu" ref={menuRef} className={menuVisible ? '' : 'opacity-hidden'} style={{ top: menuPosition.top, left: menuPosition.left }}>
-          <p onClick={handleMenuOptionClick}>Edit</p>
-          <p id="dots-remove" onClick={handleMenuOptionClick}>Remove</p>
+          <p onClick={editGuardian}>Edit</p>
+          <p id="dots-remove" onClick={removeGuardian}>Remove</p>
         </div>
       </div>
       <div className="medium-divider"></div>
-    </>
+    </div>
   );
 }
 
 
 export default DisplayItem;
-// remove items and button on update click

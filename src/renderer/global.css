@@ -118,6 +118,13 @@
   filter: brightness(0.85);
 }
 
+.disabled{
+  filter: none !important;
+  cursor:auto !important;
+  pointer-events: none;
+  background-color: #707070 
+}
+
 
 /* Divider */
 .big-divider {

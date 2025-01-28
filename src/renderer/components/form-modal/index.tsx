@@ -19,8 +19,27 @@ import cancelButton from './resources/cancel-button.svg';
 import { Guardian } from '../../types/guardian';
 
 function FormModal(item: Guardian) {
+  const closeWindow = () => {
+      const fmElement = document.getElementById('form-modal-container');
+      if (fmElement) {
+        fmElement.innerHTML = '';
+      }
+    };
+
+    const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
+        closeWindow();
+      }
+    };
+
+    const saveGuardian = () => {
+      console.log('Save Guardian');
+      closeWindow();
+    }
+
+
   return (
-    <div id="fm-background">
+    <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
         <h2>{item.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
@@ -142,11 +161,11 @@ function FormModal(item: Guardian) {
 
 
         <div className="row fm-button-wrapper">
-          <div className="button fm-button" >
+          <div className="button fm-button" onClick={saveGuardian}>
             <img src={saveButton} alt="github" />
             <p>Save</p>
           </div>
-          <div className="button button-side-color fm-button" >
+          <div className="button button-side-color fm-button" onClick={closeWindow}>
             <img src={cancelButton} alt="github" />
             <p>Cancel</p>
           </div>

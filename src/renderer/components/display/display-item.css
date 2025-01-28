@@ -1,4 +1,4 @@
-#display-item {
+.display-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,10 +13,21 @@
   font-size: 22px;
 }
 
-#item-repeats {
+.item-repeats-container{
   min-width: 15%;
   width: 15%;
   max-width: 15%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.ir-5 {
+  max-width: 80px !important;
+}
+
+#item-repeats {
+  max-width: 100px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -106,6 +117,12 @@ input:checked + .slider:before {
   }
   .item-text {
     font-size: 18px;
+  }
+  #item-repeats{
+    max-width: 80px;
+  }
+  .ir-5 {
+    max-width: 60px !important;
   }
   #item-repeats > img {
     width: 15px;
