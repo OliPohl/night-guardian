@@ -72,7 +72,7 @@ function Display() {
 
   return (
     <div id="display" className="panel scrollable">
-      <img id="search-button" className={`img-button ${isSpinning ? 'spin' : ''}`} src={searchButton} alt="search button" title="Search for Guardians" onClick={handleUpdateClick} />
+      <img id="search-button" className={`img-button ${isSpinning ? 'spin' : ''}`} src={searchButton} alt="search button" title="Refresh Guardians" onClick={handleUpdateClick} />
       <div id="heading">
         <h1 title="Time the Guardian will shut down your PC if not snoozed">Alarm</h1>
         <h1 title="Weekdays the Guardian repeats">Repeats</h1>
