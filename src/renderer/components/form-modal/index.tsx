@@ -1,6 +1,6 @@
 // #region Imports
 // Importing necessary react libraries
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
 // Importing styles and types
@@ -36,6 +36,7 @@ export const openFormModal = (item : Guardian) => {
   if (fmElement) {
     const root = createRoot(fmElement);
     root.render(<FormModal {...item} />);
+    // TODO: Fix creating root when root already exists
   }
 }
 // #endregion Exports
@@ -43,6 +44,8 @@ export const openFormModal = (item : Guardian) => {
 
 // #region FormModal
 function FormModal(item: Guardian) {
+  // Save a copy of the current item to only save the changes internally
+  const [currentItem, setCurrentItem] = useState({ ...item });
   // #region Close/Save
   // Closes the form modal window
   const closeWindow = () => {
@@ -67,6 +70,36 @@ function FormModal(item: Guardian) {
   // #endregion Close/Save
 
 
+  // #region Alarm
+  const changeAlarmValue = (hourChange : number, minuteChange : number) => {
+    const alarmValue = document.getElementById('fm-alarm-minutes') as HTMLElement;
+    if (alarmValue) {
+      const [hours, minutes] = currentItem.alarm.split(':').map(Number);
+      let newHours = hours + hourChange;
+      let newMinutes = minutes + minuteChange;
+
+      // Ensure hours and minutes are within valid range
+      if (newMinutes >= 60) {
+        newMinutes = 0;
+        newHours += 1;
+      } else if (newMinutes < 0) {
+        newMinutes = 59;
+        newHours -= 1;
+      }
+
+      if (newHours >= 24) {
+        newHours = 0;
+      } else if (newHours < 0) {
+        newHours = 23;
+      }
+
+      const newAlarm = `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
+      setCurrentItem({ ...currentItem, alarm: newAlarm });
+    }
+  }
+  // #endregion Alarm
+
+
   // #region Repeats
   const selectRepeatDay = (event: React.MouseEvent<HTMLImageElement>) => {
     const isActive = event.currentTarget.classList.contains('fm-repeats-active');
@@ -76,6 +109,7 @@ function FormModal(item: Guardian) {
       event.currentTarget.classList.add('fm-repeats-active');
     }
   }
+  // #endregion Repeats
 
 
   // #region Dropdown
@@ -176,26 +210,29 @@ function FormModal(item: Guardian) {
     <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
         {/* Heading */}
-        <h2>{item.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
+        <h2>{currentItem.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
         {/* Alarm */}
-        <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed">
-          <div id="fm-alarm-hours" className="fm-alarm-wrapper">
-            <div className="fm-alarm-up fm-alarm-arrow">
+        <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed - you may also use your scroll wheel to change the time">
+          {/* Hours */}
+          <div id="fm-alarm-hours" className="fm-alarm-wrapper" onWheel={(e) => changeAlarmValue(e.deltaY < 0 ? 1 : -1, 0)}>
+            <div className="fm-alarm-up fm-alarm-arrow" onClick={() => changeAlarmValue(1, 0)}>
               <img src={imgAlarmUp} alt="Up" />
             </div>
-            <div className="fm-alarm-value">{item.alarm.split(':')[0]}</div>
-            <div className="fm-alarm-down fm-alarm-arrow">
+            <div className="fm-alarm-value">{currentItem.alarm.split(':')[0]}</div>
+            <div className="fm-alarm-down fm-alarm-arrow" onClick={() => changeAlarmValue(-1, 0)}>
               <img src={imgAlarmDown} alt="Down" />
             </div>
           </div>
+          {/* Colon */}
           <img id="fm-alarm-colon" src={imgAlarmColon} alt=":" />
-          <div id="fm-alarm-minutes" className="fm-alarm-wrapper">
-            <div className="fm-alarm-up fm-alarm-arrow">
+          {/* Minutes */}
+          <div id="fm-alarm-minutes" className="fm-alarm-wrapper" onWheel={(e) => changeAlarmValue(0, e.deltaY < 0 ? 1 : -1)}>
+            <div className="fm-alarm-up fm-alarm-arrow" onClick={() => changeAlarmValue(0, 1)}>
               <img src={imgAlarmUp} alt="Up" />
             </div>
-            <div className="fm-alarm-value">{item.alarm.split(':')[1]}</div>
-            <div className="fm-alarm-down fm-alarm-arrow">
+            <div className="fm-alarm-value">{currentItem.alarm.split(':')[1]}</div>
+            <div className="fm-alarm-down fm-alarm-arrow" onClick={() => changeAlarmValue(0, -1)}>
               <img src={imgAlarmDown} alt="Down" />
             </div>
           </div>
