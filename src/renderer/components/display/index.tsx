@@ -1,42 +1,23 @@
-import { useState, useEffect } from 'react';
+// #region Imports
+// Importing necessary react libraries
 import { createRoot } from 'react-dom/client';
-import './display.css';
 
-import { Guardian } from '../../types/guardian';
+// Importing styles and components
+import './display.css';
 import DisplayItem from './display-item';
 import FormModal from '../form-modal';
 
-import searchButton from './resources/search-button.svg';
-import addButton from './resources/add-button.svg';
+// Importing resources
+import imgRefreshGuardians from './resources/img-refresh-guardians.svg';
+import imgCreateGuardians from './resources/img-create-guardians.svg';
+import { newGuardian, testGuardianA, testGuardianB, testGuardianC } from './guardians';
+// #endregion Imports
 
+
+// #region Display
 function Display() {
-  const [isSpinning, setIsSpinning] = useState(false);
-
-  const newGuardian: Guardian = {
-    name: 'NewGuardian',
-    alarm: '23:00',
-    repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    warning: 15,
-    snooze: -1,
-    extension: 30,
-    equation: 2,
-    active: true,
-  };
-
-  const handleUpdateClick = () => {
-    setIsSpinning(true);
-    const displayElement = document.getElementById('display-items');
-    if (displayElement) {
-      displayElement.innerHTML = '';
-    }
-
-    const addButton = document.getElementById('add-button');
-    if (addButton) {
-      addButton.classList.add('disabled');
-    }
-  };
-
-  const addGuardian = () => {
+  // TODO: Move this to the form-modal component
+  const createGuardian = () => {
     const fmElement = document.getElementById('form-modal-container');
     if (fmElement) {
       const root = createRoot(fmElement);
@@ -44,36 +25,40 @@ function Display() {
     }
   };
 
-  useEffect(() => {
-    if (isSpinning) {
-      const timer = setTimeout(() => {
-        setIsSpinning(false);
-        const addButton = document.getElementById('add-button');
-        if (addButton) {
-          addButton.classList.remove('disabled');
-        }
+
+  // #region Refresh
+  const refreshGuardians = () => {
+    // Start spinning the refresh button
+    const btnRefreshGuardians = document.getElementById('btn-refresh-guardians');
+    if (btnRefreshGuardians) btnRefreshGuardians.classList.add('spin');
+
+    // Remove current DisplayItems
+    const displayItemsContainer = document.getElementById('display-items-container');
+    if (displayItemsContainer) displayItemsContainer.innerHTML = '';
+
+    // Temporarily disable the create guardians button
+    const btnCreateGuardians = document.getElementById('btn-create-guardians');
+    if (btnCreateGuardians) btnCreateGuardians.classList.add('disabled');
+
+    // Resets the refresh button and re-enables the create guardians button
+    const timeout = setTimeout(() => {
+      if (btnRefreshGuardians) btnRefreshGuardians.classList.remove('spin');
+      if (btnCreateGuardians) btnCreateGuardians.classList.remove('disabled');
+      // TODO BACKEND: Fetch guardians from the backend and display them
       }, 3000);
-
-      return () => clearTimeout(timer);
+    return () => clearTimeout(timeout);
     }
-  }, [isSpinning]);
+  // #endregion Refresh Guardians
 
-    // Sample Guardian object
-    const sampleGuardian: Guardian = {
-      name: 'Guardian',
-      alarm: '21:00',
-      repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      warning: 5,
-      snooze: -1,
-      extension: 30,
-      equation: 2,
-      active: true,
-    };
 
+  // #region HTML
   return (
     <div id="display" className="panel scrollable">
-      <img id="search-button" className={`img-button ${isSpinning ? 'spin' : ''}`} src={searchButton} alt="search button" title="Refresh Guardians" onClick={handleUpdateClick} />
-      <div id="heading">
+      {/* Refresh Guardians */}
+      <img id="btn-refresh-guardians" className="img-button" src={imgRefreshGuardians} alt="search button" title="Refresh Guardians" onClick={refreshGuardians} />
+
+      {/* Display Headings */}
+      <div id="display-heading-container">
         <h1 title="Time the Guardian will shut down your PC if not snoozed">Alarm</h1>
         <h1 title="Weekdays the Guardian repeats">Repeats</h1>
         <h1 title="Time before the alarm when the guardian will prompt to snooze or acknowledge">Warning</h1>
@@ -83,19 +68,23 @@ function Display() {
       </div>
       <div className="big-divider"></div>
 
-      <div id="display-items">
-        <DisplayItem {...sampleGuardian} />
-        <DisplayItem {...sampleGuardian} />
-        <DisplayItem {...sampleGuardian} />
-        <DisplayItem {...sampleGuardian} />
+      {/* Display Items */}
+      <div id="display-items-container">
+        <DisplayItem {...testGuardianA} />
+        <DisplayItem {...testGuardianB} />
+        <DisplayItem {...testGuardianC} />
       </div>
 
-      <div id="add-button" className="button center" onClick={addGuardian}>
-        <img src={addButton} alt="add button" />
-        <p>Add Guardian</p>
+      {/* Create Guardian */}
+      <div id="btn-create-guardians" className="button center" onClick={createGuardian}>
+        <img src={imgCreateGuardians} />
+        <p>Create Guardian</p>
       </div>
+
     </div>
   );
+  // #endregion HTML
 }
 
 export default Display;
+// #endregion Display

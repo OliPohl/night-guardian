@@ -1,19 +1,38 @@
+/* #region General */
 .display-item {
   display: flex;
   flex-direction: row;
   align-items: center;
   min-height: 50px;
 }
+@media (max-width: 1200px) {
+  .display-item {
+    min-height: 40px;
+  }
+}
+/* #endregion General */
 
-.item-text {
+
+/* #region Text */
+/* Text style for all the text used in the display item */
+.di-text {
   min-width: 15%;
   width: 15%;
   max-width: 15%;
   text-align: center;
   font-size: 22px;
 }
+@media (max-width: 1200px) {
+  /* Text style for all the text used in the display item */
+  .di-text {
+    font-size: 18px;
+  }
+}
+/* #endregion Text */
 
-.item-repeats-container{
+
+/* #region Repeats */
+.di-repeats-container{
   min-width: 15%;
   width: 15%;
   max-width: 15%;
@@ -21,12 +40,13 @@
   justify-content: center;
 }
 
-
-.ir-5 {
+/* Wraps the repeat images nicely on exactly 5 repeats */
+.di-repeats-5 {
   max-width: 80px !important;
 }
 
-#item-repeats {
+/* Wraps the repeat images */
+#di-repeats {
   max-width: 100px;
   display: flex;
   flex-direction: row;
@@ -35,19 +55,45 @@
   align-items: center;
 }
 
-#item-repeats > p {
+#di-repeats > img {
+  width: 20px;
+  object-fit: contain;
+  margin: 2px;
+}
+
+/* Only shows when there are no repeats instead of the imgs */
+#di-repeats > p {
   margin: 0;
   font-size: 22px;
 }
 
-#item-repeats > img {
-  width: 20px;
-  object-fit: contain;
-  margin: 2px;
-  filter:grayscale(100%) brightness(5);
-}
 
-#item-toggle {
+@media (max-width: 1200px) {
+  /* Wraps the repeat images nicely on exactly 5 repeats */
+  .di-repeats-5 {
+    max-width: 60px !important;
+  }
+
+  /* Wraps the repeat images */
+  #di-repeats{
+    max-width: 80px;
+  }
+
+  #di-repeats > img {
+    width: 15px;
+  }
+
+  /* Only shows when there are no repeats instead of the imgs */
+  #di-repeats > p {
+    font-size: 18px;
+  }
+}
+/* #endregion Repeats */
+
+
+/* #region Active State */
+/* Container for the active toggle */
+#toggle-active-state {
   min-width: 7%;
   width: 7%;
   max-width: 7%;
@@ -56,96 +102,23 @@
   align-items: center;
   justify-content: center;
 }
-.toggle {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
-  border-radius: 34px;
-  cursor: pointer;
-}
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-}
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 34px;
-  background-color: #8d8d8d;
-  -webkit-transition: .4s;
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  width: 25px;
-  height: 25px;
-  border-radius: 34px;
-  background-color: white;
-  -webkit-transition: .4s;
-}
-.slider:hover:before {
-  background-color: #dbdbdb;
-}
-input:checked + .slider {
-  background-color: #3a7b17;
-}
-input:checked + .slider:before {
-  -webkit-transform: translateX(25px);
-}
+/* #endregion Active State */
 
-#item-dots {
+
+/* #region Dots */
+/* Dots Button */
+#btn-dots {
   width: 2%;
   height: 32px;
   object-fit: contain;
   cursor: pointer;
   transition: filter 0.4s ease;
 }
-#item-dots:hover {
+#btn-dots:hover {
   filter: brightness(0.85);
 }
 
-@media (max-width: 1200px) {
-  #display-item {
-    min-height: 40px;
-  }
-  .item-text {
-    font-size: 18px;
-  }
-  #item-repeats{
-    max-width: 80px;
-  }
-  .ir-5 {
-    max-width: 60px !important;
-  }
-  #item-repeats > img {
-    width: 15px;
-  }
-  #item-repeats > p {
-    font-size: 18px;
-  }
-  .toggle {
-    width: 30px;
-    height: 15px;
-  }
-  .slider::before {
-    width: 15px;
-    height: 15px;
-  }
-  input:checked + .slider:before {
-    -webkit-transform: translateX(15px);
-  }
-  #item-dots {
-    height: 25px;
-  }
-}
-
+/* Dots Menu */
 #dots-menu {
   position: absolute;
   background-color: #252936;
@@ -154,6 +127,7 @@ input:checked + .slider:before {
   z-index: 1;
   transition: opacity 0.4s ease;
 }
+
 #dots-menu p {
   color: white;
   font-size: 16px;
@@ -166,6 +140,14 @@ input:checked + .slider:before {
 #dots-menu p:hover {
   background-color: #1f222d;
 }
-#dots-remove {
+#dots-menu-remove {
   color: #ff5b42 !important;
 }
+
+@media (max-width: 1200px) {
+  /* Dots Button */
+  #btn-dots {
+    height: 25px;
+  }
+}
+/* #endregion Dots */
