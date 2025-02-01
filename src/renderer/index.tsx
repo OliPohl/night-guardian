@@ -7,6 +7,7 @@ import { createRoot } from 'react-dom/client'
 import './styles/general.css'
 import './styles/scrollbar.css'
 import './styles/divider.css'
+import './styles/button.css'
 import './styles/toggle.css'
 import './styles/dropdown.css'
 
