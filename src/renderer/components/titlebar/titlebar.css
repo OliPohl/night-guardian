@@ -1,3 +1,4 @@
+/* #region General */
 .titlebar {
   display: flex;
   align-items: center;
@@ -6,7 +7,10 @@
   -webkit-user-select: none;
   -webkit-app-region: drag;
 }
+/* #endregion General */
 
+
+/* #region Heading */
 .titlebar-heading {
   flex-grow: 1;
   text-align: center;
@@ -14,7 +18,10 @@
   font-weight: 400;
   color: #919191;
 }
+/* #endregion Heading */
 
+
+/* #region Buttons */
 .titlebar-buttons {
   display: flex;
   align-items: center;
@@ -32,11 +39,11 @@
   justify-content: center;
   align-items: center;
 }
-
 .titlebar-button:hover {
   background-color: #ffffff1d;
 }
 
+/* Hover color for the close button */
 #titlebar-close:hover {
   background-color: #ff0000;
 }
@@ -45,7 +52,7 @@
   width: 15px;
   height: 15px;
 }
-
 .titlebar-button:hover > img {
   filter: brightness(3);
 }
+/* #endregion Buttons */
