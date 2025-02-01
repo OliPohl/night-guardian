@@ -131,7 +131,7 @@
   filter: brightness(1);
 }
 #fm-repeats > .fm-repeats-active:hover{
-  filter: brightness(0.8) !important;
+  filter: brightness(0.9) !important;
 }
 /* #endregion Repeats */
 
