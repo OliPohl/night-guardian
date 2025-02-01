@@ -1,0 +1,19 @@
+/* #region Divider */
+.big-divider {
+  min-height: 3px;
+  background: #b6b8bd;
+  margin: 15px 0;
+}
+
+.medium-divider {
+  min-height: 3px;
+  background: #757985;
+  margin: 15px 0;
+}
+
+.small-divider {
+  min-height: 1px;
+  background: #757985;
+  margin: 15px 0;
+}
+/* #endregion Divider */

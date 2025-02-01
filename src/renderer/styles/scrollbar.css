@@ -1,0 +1,23 @@
+/* #region Scrollbar */
+.scrollable {
+  overflow-y: auto !important;
+}
+
+.scrollable > * {
+  overflow: visible !important;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+  background: #0000001a;
+  border-radius: 10px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #cdfffa32;
+  border-radius: 10px;
+}
+/* #endregion Scrollbar */

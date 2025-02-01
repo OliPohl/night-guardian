@@ -148,7 +148,7 @@ function FormModal(item: Guardian) {
         {/* Extension */}
         <div id="fm-extension" className="dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze">
           <h2>Extension:</h2>
-          <div className="dropdown fm-disabled">
+          <div className="dropdown dropdown-disabled">
             <p>None</p>
             <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />

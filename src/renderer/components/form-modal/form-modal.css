@@ -145,6 +145,14 @@
   width: 95%;
   margin: 10px 0;
 }
+
+.dropdown-wrapper > h2 {
+  color: #a9a9a9;
+  letter-spacing: 1.1px;
+  font-size: 22px;
+  font-weight: 500;
+  padding-bottom: 4px;
+}
 /* #endregion Dropdown */
 
 

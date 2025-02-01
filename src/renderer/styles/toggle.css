@@ -1,0 +1,62 @@
+/* Toggle */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  border-radius: 34px;
+  cursor: pointer;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 34px;
+  background-color: #8d8d8d;
+  -webkit-transition: .4s;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  width: 25px;
+  height: 25px;
+  border-radius: 34px;
+  background-color: white;
+  -webkit-transition: .4s;
+}
+.slider:hover:before {
+  background-color: #dbdbdb;
+}
+
+input:checked + .slider {
+  background-color: #3a7b17;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(25px);
+}
+
+@media (max-width: 1200px) {
+  .toggle {
+    width: 30px;
+    height: 15px;
+  }
+  .slider::before {
+    width: 15px;
+    height: 15px;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(15px);
+  }
+}
+/* #endregion Toggle */
