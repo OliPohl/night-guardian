@@ -1,24 +1,35 @@
+// #region Imports
+// Importing styles and types
 import './form-modal.css';
-import alarmColon from './resources/alarm-colon.svg';
-import alarmUp from './resources/alarm-up.svg';
-import alarmDown from './resources/alarm-down.svg';
-
-import repeatsMonday from './resources/repeats-monday.svg';
-import repeatsTuesday from './resources/repeats-tuesday.svg';
-import repeatsWednesday from './resources/repeats-wednesday.svg';
-import repeatsThursday from './resources/repeats-thursday.svg';
-import repeatsFriday from './resources/repeats-friday.svg';
-import repeatsSaturday from './resources/repeats-saturday.svg';
-import repeatsSunday from './resources/repeats-sunday.svg';
-
-import dropdownArrow from './resources/dropdown-arrow.svg';
-
-import saveButton from './resources/save-button.svg';
-import cancelButton from './resources/cancel-button.svg';
-
 import { Guardian } from '../../types/guardian';
 
+// Importing resources for alarm
+import imgAlarmColon from './resources/img-alarm-colon.svg';
+import imgAlarmUp from './resources/img-alarm-up.svg';
+import imgAlarmDown from './resources/img-alarm-down.svg';
+
+// Importing resources for repeats
+import imgRepeatMondays from './resources/img-repeat-mondays.svg';
+import imgRepeatTuesdays from './resources/img-repeat-tuesdays.svg';
+import imgRepeatsWednesdays from './resources/img-repeat-wednesdays.svg';
+import imgRepeatsThursdays from './resources/img-repeat-thursdays.svg';
+import imgRepeatsFridays from './resources/img-repeat-fridays.svg';
+import imgRepeatsSaturdays from './resources/img-repeat-saturdays.svg';
+import imgRepeatsSundays from './resources/img-repeat-sundays.svg';
+
+// Importing resources for dropdown
+import imgDropdownBtn from './resources/img-dropdown-btn.svg';
+
+// Importing resources for buttons
+import imgSaveBtn from './resources/img-save-btn.svg';
+import imgCancelBtn from './resources/img-cancel-btn.svg';
+// #endregion Imports
+
+
+// #region FormModal
 function FormModal(item: Guardian) {
+  // #region Close/Save
+  // Closes the form modal window
   const closeWindow = () => {
       const fmElement = document.getElementById('form-modal-container');
       if (fmElement) {
@@ -26,61 +37,75 @@ function FormModal(item: Guardian) {
       }
     };
 
+    // Saves the guardian and closes the form modal window
+    const saveGuardian = () => {
+      // TODO BACKEND: Save the guardian and display it to the frontend
+      closeWindow();
+    }
+
+    // Closes the form modal window when the background is clicked
     const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement>) => {
       if (event.target === event.currentTarget) {
         closeWindow();
       }
     };
-
-    const saveGuardian = () => {
-      console.log('Save Guardian');
-      closeWindow();
-    }
+  // #endregion Close/Save
 
 
+  // #region Dropdown
+  // TODO: Implement dropdown functionality
+  // TODO: Disable unrelevant dropdowns
+  // #endregion Dropdown
+
+
+  // #region HTML
   return (
     <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
+        {/* Heading */}
         <h2>{item.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
+        {/* Alarm */}
         <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed">
           <div id="fm-alarm-hours" className="fm-alarm-wrapper">
             <div className="fm-alarm-up fm-alarm-arrow">
-              <img src={alarmUp} alt="Up" />
+              <img src={imgAlarmUp} alt="Up" />
             </div>
             <div className="fm-alarm-value">{item.alarm.split(':')[0]}</div>
             <div className="fm-alarm-down fm-alarm-arrow">
-              <img src={alarmDown} alt="Down" />
+              <img src={imgAlarmDown} alt="Down" />
             </div>
           </div>
-          <img id="fm-alarm-colon" src={alarmColon} alt=":" />
+          <img id="fm-alarm-colon" src={imgAlarmColon} alt=":" />
           <div id="fm-alarm-minutes" className="fm-alarm-wrapper">
             <div className="fm-alarm-up fm-alarm-arrow">
-              <img src={alarmUp} alt="Up" />
+              <img src={imgAlarmUp} alt="Up" />
             </div>
             <div className="fm-alarm-value">{item.alarm.split(':')[1]}</div>
             <div className="fm-alarm-down fm-alarm-arrow">
-              <img src={alarmDown} alt="Down" />
+              <img src={imgAlarmDown} alt="Down" />
             </div>
           </div>
         </div>
 
+        {/* Repeats */}
         <div id="fm-repeats">
-          <img src={repeatsMonday} alt="Monday" className=" " title="Repeats every Monday if active" />
-          <img src={repeatsTuesday} alt="Tuesday" className="fm-repeats-active" title="Repeats every Tuesday if active" />
-          <img src={repeatsWednesday} alt="Wednesday" className="fm-repeats-active" title="Repeats every Wednesday if active" />
-          <img src={repeatsThursday} alt="Thursday" className="fm-repeats-active" title="Repeats every Thursday if active" />
-          <img src={repeatsFriday} alt="Friday" className="fm-repeats-active" title="Repeats every Friday if active" />
-          <img src={repeatsSaturday} alt="Saturday" className="fm-repeats-active" title="Repeats every Saturday if active" />
-          <img src={repeatsSunday} alt="Sunday" className="fm-repeats-active" title="Repeats every Sunday if active" />
+          <img src={imgRepeatMondays} alt="Monday" className=" " title="Repeats every Monday if active" />
+          <img src={imgRepeatTuesdays} alt="Tuesday" className="fm-repeats-active" title="Repeats every Tuesday if active" />
+          <img src={imgRepeatsWednesdays} alt="Wednesday" className="fm-repeats-active" title="Repeats every Wednesday if active" />
+          <img src={imgRepeatsThursdays} alt="Thursday" className="fm-repeats-active" title="Repeats every Thursday if active" />
+          <img src={imgRepeatsFridays} alt="Friday" className="fm-repeats-active" title="Repeats every Friday if active" />
+          <img src={imgRepeatsSaturdays} alt="Saturday" className="fm-repeats-active" title="Repeats every Saturday if active" />
+          <img src={imgRepeatsSundays} alt="Sunday" className="fm-repeats-active" title="Repeats every Sunday if active" />
         </div>
 
+        {/* Warning */}
         <div id="fm-warning" className="fm-dropdown-wrapper" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">
           <h2>Warning:</h2>
           <div className="fm-dropdown">
             <p>15 min</p>
             <div className="fm-dropdown-flag">
-              <img src={dropdownArrow} alt="Open" />
+              <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="fm-dropdown-content scrollable hidden">
               <p>None</p>
@@ -100,12 +125,13 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
+        {/* Snooze */}
         <div id="fm-snooze" className="fm-dropdown-wrapper" title="Number of times the guardian can be delayed before forcing shutdown">
           <h2>Snooze:</h2>
           <div className="fm-dropdown">
             <p>Unlimited</p>
             <div className="fm-dropdown-flag">
-              <img src={dropdownArrow} alt="Open" />
+              <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="fm-dropdown-content scrollable hidden">
               <p>None</p>
@@ -119,12 +145,13 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
+        {/* Extension */}
         <div id="fm-extension" className="fm-dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze">
           <h2>Extension:</h2>
           <div className="fm-dropdown fm-disabled">
             <p>None</p>
             <div className="fm-dropdown-flag">
-              <img src={dropdownArrow} alt="Open" />
+              <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="fm-dropdown-content scrollable hidden">
               <p>5 min</p>
@@ -143,12 +170,13 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
+        {/* Equation */}
         <div id="fm-equation" className="fm-dropdown-wrapper" title="Difficulty of the equation to extend time - requires at least one snooze">
           <h2>Equation:</h2>
           <div className="fm-dropdown">
             <p>Easy</p>
             <div className="fm-dropdown-flag">
-              <img src={dropdownArrow} alt="Open" />
+              <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="fm-dropdown-content scrollable fm-dropdown-content-top hidden">
               <p>None</p>
@@ -159,20 +187,23 @@ function FormModal(item: Guardian) {
           </div>
         </div>
 
-
+        {/* Save / Close Buttons */}
         <div className="row fm-button-wrapper">
           <div className="button fm-button" onClick={saveGuardian}>
-            <img src={saveButton} alt="github" />
+            <img src={imgSaveBtn} alt="github" />
             <p>Save</p>
           </div>
           <div className="button button-side-color fm-button" onClick={closeWindow}>
-            <img src={cancelButton} alt="github" />
+            <img src={imgCancelBtn} alt="github" />
             <p>Cancel</p>
           </div>
         </div>
+
       </div>
     </div>
   );
+  // #endregion HTML
 }
 
 export default FormModal;
+// #endregion FormModal

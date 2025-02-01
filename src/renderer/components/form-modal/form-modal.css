@@ -1,3 +1,4 @@
+/* #region General */
 #fm-background {
   position: fixed;
   top: 0;
@@ -18,7 +19,10 @@
   min-height: 470px;
   max-height: 90vh;
 }
+/* #endregion General */
 
+
+/* #region Alarm */
 #fm-alarm {
   display: flex;
   justify-content: center;
@@ -27,6 +31,7 @@
   margin: 15px 0;
 }
 
+/* Styles the arrow buttons above and below the alarm number */
 .fm-alarm-arrow{
   min-width: 60px;
   max-width: 60px;
@@ -40,45 +45,46 @@
   cursor: pointer;
   transition: filter 0.2s ease;
 }
-
-.fm-alarm-down {
-  padding-top: 15px;
-}
-
-.fm-alarm-up {
-  padding-bottom: 15px;
-}
-
 .fm-alarm-arrow:hover {
   filter: brightness(1.05);
 }
-
 .fm-alarm-arrow:active {
   filter: brightness(0.95);
 }
 
-
+/* Styles the images inside the alarm arrow buttons */
 .fm-alarm-arrow img {
   width: 40px;
   object-fit: contain;
   cursor: pointer;
   transition: filter 0.2s ease;
 }
-
 .fm-alarm-arrow:hover img {
   filter: brightness(1.05);
 }
-
 .fm-alarm-arrow:active img {
   filter: brightness(0.95);
 }
 
+
+/* Draws over the alarm number background */
+.fm-alarm-down {
+  padding-top: 15px;
+}
+
+/* Draws over the alarm number background */
+.fm-alarm-up {
+  padding-bottom: 15px;
+}
+
+/* The colon between the alarm numbers */
 #fm-alarm-colon {
   width: 40px;
   object-fit: contain;
   margin: 0 15px;
 }
 
+/* The alarm number itself */
 .fm-alarm-value {
   font-size: 40px;
   font-weight: 640;
@@ -97,8 +103,10 @@
   height: 65px;
   z-index: 1002;
 }
+/* #endregion Alarm */
 
 
+/* #region Repeats */
 #fm-repeats {
   align-self: center;
   display: flex;
@@ -115,7 +123,6 @@
   transition: filter 0.4s ease;
   filter: brightness(0.5);
 }
-
 #fm-repeats img:hover {
   filter: brightness(0.6) !important;
 }
@@ -123,11 +130,14 @@
 #fm-repeats > .fm-repeats-active {
   filter: brightness(1);
 }
-
 #fm-repeats > .fm-repeats-active:hover{
   filter: brightness(0.8) !important;
 }
+/* #endregion Repeats */
 
+
+/* #region Dropdown */
+/* TODO: Move dropdown in the global.css file */
 .fm-dropdown-wrapper {
   display: flex;
   justify-content: space-between;
@@ -227,7 +237,10 @@
 .fm-dropdown-content p:hover{
   background-color: #404658;
 }
+/* #endregion Dropdown */
 
+
+/* #region Buttons */
 .fm-button-wrapper{
   margin: 10px 0;
 }
@@ -235,3 +248,4 @@
 .fm-button{
   min-width: 120px;
 }
+/* #endregion Buttons */
