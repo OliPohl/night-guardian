@@ -9,10 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  transition: background 0.4s ease;
-}
-.button:hover {
-  background: #45901c;
+  transition: filter 0.2s ease;
 }
 
 .button img {
@@ -20,11 +17,26 @@
   height: 20px;
   margin-right: 5px;
   object-fit: contain;
+  transition: filter 0.2s ease;
 }
 
 .button p {
   color: #cdfffa;
   font-size: 16px;
+  font-weight: 500;
+  transition: filter 0.2s ease;
+}
+
+.button:hover, 
+.button:hover > img,
+.button:hover > p {
+  filter: brightness(1.05);
+}
+
+.button:active, 
+.button:active > img,
+.button:active > p {
+  filter: brightness(0.95);
 }
 /* #endregion main button */
 
@@ -32,9 +44,6 @@
 /* #region side button */
 .button-side-color {
   background: #707070 !important;
-}
-.button-side-color:hover {
-  background: #676767 !important;
 }
 /* #endregion side button */
 
@@ -48,5 +57,8 @@
 }
 .img-button:hover {
   filter: brightness(0.85);
+}
+.img-button:active {
+  filter: brightness(0.7);
 }
 /* #endregion img button */
