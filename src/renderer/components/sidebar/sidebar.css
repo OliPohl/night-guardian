@@ -1,19 +1,23 @@
+/* #region General */
 #sidebar {
   display: flex;
   flex-direction: column;
   width: 300px;
   margin: 5px 20px 20px 0;
 }
+/* #endregion General */
 
+
+/* #region Logo */
 #logo {
   object-fit: contain;
 }
+/* #endregion Logo */
 
+
+/* #region Description */
 #description {
   flex-grow:1;
   text-align: center;
 }
-
-.info-text {
-  color:#919191;
-}
+/* #endregion Description */
