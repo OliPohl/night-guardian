@@ -1,4 +1,7 @@
 // #region Imports
+// Importing necessary react libraries
+import { createRoot } from 'react-dom/client';
+
 // Importing styles and types
 import './form-modal.css';
 import { Guardian } from '../../types/guardian';
@@ -26,12 +29,23 @@ import imgCancelBtn from './resources/img-cancel-btn.svg';
 // #endregion Imports
 
 
+// #region Exports
+export const openFormModal = (item : Guardian) => {
+  const fmElement = document.getElementById('fm-container');
+  if (fmElement) {
+    const root = createRoot(fmElement);
+    root.render(<FormModal {...item} />);
+  }
+}
+// #endregion Exports
+
+
 // #region FormModal
 function FormModal(item: Guardian) {
   // #region Close/Save
   // Closes the form modal window
   const closeWindow = () => {
-      const fmElement = document.getElementById('form-modal-container');
+      const fmElement = document.getElementById('fm-container');
       if (fmElement) {
         fmElement.innerHTML = '';
       }

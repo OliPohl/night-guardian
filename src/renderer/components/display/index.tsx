@@ -1,11 +1,8 @@
 // #region Imports
-// Importing necessary react libraries
-import { createRoot } from 'react-dom/client';
-
 // Importing styles and components
 import './display.css';
 import DisplayItem from './display-item';
-import FormModal from '../form-modal';
+import { openFormModal } from '../form-modal';
 
 // Importing resources
 import imgRefreshGuardians from './resources/img-refresh-guardians.svg';
@@ -16,16 +13,6 @@ import { newGuardian, testGuardianA, testGuardianB, testGuardianC } from './guar
 
 // #region Display
 function Display() {
-  // TODO: Move this to the form-modal component
-  const createGuardian = () => {
-    const fmElement = document.getElementById('form-modal-container');
-    if (fmElement) {
-      const root = createRoot(fmElement);
-      root.render(<FormModal {...newGuardian} />);
-    }
-  };
-
-
   // #region Refresh
   const refreshGuardians = () => {
     // Start spinning the refresh button
@@ -76,7 +63,7 @@ function Display() {
       </div>
 
       {/* Create Guardian */}
-      <div id="btn-create-guardians" className="button center" onClick={createGuardian}>
+      <div id="btn-create-guardians" className="button center" onClick={openFormModal.bind(null, newGuardian)}>
         <img src={imgCreateGuardians} />
         <p>Create Guardian</p>
       </div>

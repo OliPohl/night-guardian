@@ -13,8 +13,7 @@ function App() {
     <div id="app">
       <Display />
       <Sidebar />
-      {/* TODO: Remove the fm container */}
-      <div id="form-modal-container" />
+      <div id="fm-container" />
     </div>
   );
   // #endregion HTML

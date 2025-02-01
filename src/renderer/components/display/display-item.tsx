@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 // Importing styles, types and components
 import './display-item.css';
 import { Guardian } from '../../types/guardian.ts';
-import FormModal from '../form-modal';
+import { openFormModal } from '../form-modal';
 
 // Importing resources
 import imgdots from './resources/img-dots.svg';
@@ -111,12 +111,8 @@ function DisplayItem(item: Guardian) {
   const editItem = () => {
     setDotsMenuVisible(false);
 
-    // TODO: Move this to the form-modal component
-    const fmElement = document.getElementById('form-modal-container');
-    if (fmElement) {
-      const root = createRoot(fmElement);
-      root.render(<FormModal {...item} />);
-    }
+    // Open the form modal with the current guardian's information
+    openFormModal(item);
   };
 
   // Removes the clicked guardian from the display
