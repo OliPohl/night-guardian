@@ -81,10 +81,10 @@ function FormModal(item: Guardian) {
       // Ensure hours and minutes are within valid range
       if (newMinutes >= 60) {
         newMinutes = 0;
-        newHours += 1;
+        // newHours += 1;
       } else if (newMinutes < 0) {
         newMinutes = 59;
-        newHours -= 1;
+        // newHours -= 1;
       }
 
       if (newHours >= 24) {
