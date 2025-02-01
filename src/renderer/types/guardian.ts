@@ -1,3 +1,4 @@
+// Frontend Guardian type definition
 export interface Guardian {
   name: string;
   alarm: string;
