@@ -137,105 +137,13 @@
 
 
 /* #region Dropdown */
-/* TODO: Move dropdown in the global.css file */
-.fm-dropdown-wrapper {
+.dropdown-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-self: center;
   width: 95%;
   margin: 10px 0;
-}
-
-.fm-dropdown-wrapper > h2 {
-  color: #a9a9a9;
-  letter-spacing: 1.1px;
-  font-size: 22px;
-  font-weight: 500;
-  padding-bottom: 4px;
-}
-
-.fm-dropdown{
-  width: 140px;
-  height: 30px;
-  background-color: #555d76;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.fm-dropdown p {
-  color: #cdfffa;
-  font-size: 18px;
-  text-align: center;
-  font-weight: 470;
-  width: 100%;
-}
-
-.fm-dropdown-flag{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #4b9d1e;
-  height: 100%;
-  width: 40px;
-  border-radius: 5px;
-  transition: filter 0.2s ease;
-}
-
-.fm-dropdown:hover > .fm-dropdown-flag, 
-.fm-dropdown:hover > .fm-dropdown-flag img{
-  filter: brightness(1.05);
-}
-
-.fm-dropdown:active > .fm-dropdown-flag,
-.fm-dropdown:active > .fm-dropdown-flag img{
-  filter: brightness(0.95);
-}
-
-.fm-dropdown-flag img{
-  width: 20px;
-  object-fit: contain;
-}
-
-.fm-disabled{
-  filter: none !important;
-  cursor:auto !important;
-  pointer-events: none;
-}
-
-.fm-disabled .fm-dropdown-flag{
-  background-color: #707070 !important;
-}
-
-.fm-dropdown-content{
-  display: block;
-  position: absolute;
-  width: 140px;
-  max-height: 120px;
-  transform: translateY(calc(50% + 20px));
-  background-color: #555d76;
-  border-radius: 5px;
-  z-index: 1003;
-}
-
-.fm-dropdown-content-top{
-  transform: translateY(calc(-50% - 20px));
-}
-
-.fm-dropdown-content p{
-  font-size: 18px;
-  text-align: center;
-  font-weight: 470;
-  padding: 5px 0;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.fm-dropdown-content p:hover{
-  background-color: #404658;
 }
 /* #endregion Dropdown */
 

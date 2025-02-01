@@ -100,14 +100,14 @@ function FormModal(item: Guardian) {
         </div>
 
         {/* Warning */}
-        <div id="fm-warning" className="fm-dropdown-wrapper" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">
+        <div id="fm-warning" className="dropdown-wrapper" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">
           <h2>Warning:</h2>
-          <div className="fm-dropdown">
+          <div className="dropdown">
             <p>15 min</p>
-            <div className="fm-dropdown-flag">
+            <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
-            <div className="fm-dropdown-content scrollable hidden">
+            <div className="dropdown-content scrollable hidden">
               <p>None</p>
               <p>5 min</p>
               <p>10 min</p>
@@ -126,14 +126,14 @@ function FormModal(item: Guardian) {
         </div>
 
         {/* Snooze */}
-        <div id="fm-snooze" className="fm-dropdown-wrapper" title="Number of times the guardian can be delayed before forcing shutdown">
+        <div id="fm-snooze" className="dropdown-wrapper" title="Number of times the guardian can be delayed before forcing shutdown">
           <h2>Snooze:</h2>
-          <div className="fm-dropdown">
+          <div className="dropdown">
             <p>Unlimited</p>
-            <div className="fm-dropdown-flag">
+            <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
-            <div className="fm-dropdown-content scrollable hidden">
+            <div className="dropdown-content scrollable hidden">
               <p>None</p>
               <p>Once</p>
               <p>Twice</p>
@@ -146,14 +146,14 @@ function FormModal(item: Guardian) {
         </div>
 
         {/* Extension */}
-        <div id="fm-extension" className="fm-dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze">
+        <div id="fm-extension" className="dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze">
           <h2>Extension:</h2>
-          <div className="fm-dropdown fm-disabled">
+          <div className="dropdown fm-disabled">
             <p>None</p>
-            <div className="fm-dropdown-flag">
+            <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
-            <div className="fm-dropdown-content scrollable hidden">
+            <div className="dropdown-content scrollable hidden">
               <p>5 min</p>
               <p>10 min</p>
               <p>15 min</p>
@@ -171,14 +171,14 @@ function FormModal(item: Guardian) {
         </div>
 
         {/* Equation */}
-        <div id="fm-equation" className="fm-dropdown-wrapper" title="Difficulty of the equation to extend time - requires at least one snooze">
+        <div id="fm-equation" className="dropdown-wrapper" title="Difficulty of the equation to extend time - requires at least one snooze">
           <h2>Equation:</h2>
-          <div className="fm-dropdown">
+          <div className="dropdown">
             <p>Easy</p>
-            <div className="fm-dropdown-flag">
+            <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
-            <div className="fm-dropdown-content scrollable fm-dropdown-content-top hidden">
+            <div className="dropdown-content scrollable dropdown-content-top hidden">
               <p>None</p>
               <p>Easy</p>
               <p>Medium</p>
