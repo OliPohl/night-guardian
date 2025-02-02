@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import './display-item.css';
 import { Guardian } from '../../shared/types/guardian.ts';
 import { openFormModal } from '../form-modal';
-import { parseEquationNumber, parseSnoozeNumber, parseRepeatString } from '../../shared/utils/guardian/guardian-parser.ts';
+import { parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, repeatImage } from '../../shared/utils/guardian/guardian-parser.ts';
 
 // Importing resources
 import imgdots from './resources/img-dots.svg';
@@ -89,16 +89,16 @@ function DisplayItem(item: Guardian) {
           <div id="di-repeats" className={`di-repeats-${item.repeats.length}`}>
             {item.repeats.length > 0 ? (
               item.repeats.map((day) => (
-                <img key={day} src={parseRepeatString[day]} alt={day} title={"Repeats every " + day} />
+                <img key={day} src={repeatImage[day]} alt={day} title={"Repeats every " + day} />
               ))) : 
               ( <p>None</p> )}
           </div>
         </div>
 
         {/* Warning, Snooze, Extension, Equation */}
-        <p className="di-text" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">{item.warning} min</p>
+        <p className="di-text" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">{parseWarningNumber(item.warning)}</p>
         <p className="di-text" title="Number of times the guardian can be delayed before forcing shutdown">{parseSnoozeNumber(item.snooze)}</p>
-        <p className="di-text" title="Time added when snooze is selected">{item.extension} min</p>
+        <p className="di-text" title="Time added when snooze is selected">{parseExtensionNumber(item.extension)}</p>
         <p className="di-text" title="Difficulty of the equation to extend time">{parseEquationNumber(item.equation)}</p>
 
         {/* Active State */}

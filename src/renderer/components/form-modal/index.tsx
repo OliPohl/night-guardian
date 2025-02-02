@@ -3,23 +3,17 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-// Importing styles and types
+// Importing styles, types and utils
 import './form-modal.css';
 import { Guardian } from '../../shared/types/guardian';
+import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber } from '../../shared/utils/guardian/guardian-parser';
+import { parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
+import { warningOptions, snoozeOptions, extensionOptions, equationOptions } from '../../shared/utils/guardian/guardian-options';
 
 // Importing resources for alarm
 import imgAlarmColon from './resources/img-alarm-colon.svg';
 import imgAlarmUp from './resources/img-alarm-up.svg';
 import imgAlarmDown from './resources/img-alarm-down.svg';
-
-// Importing resources for repeats
-import imgRepeatMondays from './resources/img-repeat-mondays.svg';
-import imgRepeatTuesdays from './resources/img-repeat-tuesdays.svg';
-import imgRepeatsWednesdays from './resources/img-repeat-wednesdays.svg';
-import imgRepeatsThursdays from './resources/img-repeat-thursdays.svg';
-import imgRepeatsFridays from './resources/img-repeat-fridays.svg';
-import imgRepeatsSaturdays from './resources/img-repeat-saturdays.svg';
-import imgRepeatsSundays from './resources/img-repeat-sundays.svg';
 
 // Importing resources for dropdown
 import imgDropdownBtn from './resources/img-dropdown-btn.svg';
@@ -44,8 +38,26 @@ export const openFormModal = (item : Guardian) => {
 
 // #region FormModal
 function FormModal(item: Guardian) {
+  // #region States
   // Save a copy of the current item to only save the changes internally
-  const [currentItem, setCurrentItem] = useState({ ...item });
+  const [currentItem, setCurrentItemState] = useState({ ...item });
+  const setCurrentItem = (newItem : Guardian) => {
+    // Disable snooze if warning is set to none
+    if (newItem.warning === 0) newItem.snooze = 0;
+
+    // Disable extension and equation if snooze or warning is set to none
+    if (newItem.warning === 0 || newItem.snooze === 0) {
+      newItem.extension = 0;
+      newItem.equation = 0;
+    } else if (newItem.extension === 0) {
+      // Set the first extension if it is set to none and not disabled
+      newItem.extension = parseExtensionText(extensionOptions[0]);
+    }
+
+    // Set the new item
+    setCurrentItemState(newItem);
+  };
+  // #endregion States
 
 
   // #region Close/Save
@@ -58,7 +70,7 @@ function FormModal(item: Guardian) {
   };
 
   // Saves the guardian and closes the form modal window
-  const saveGuardian = () => {
+  const saveItem = () => {
     // TODO BACKEND: Save the guardian and display it to the frontend
     closeWindow();
   }
@@ -105,10 +117,13 @@ function FormModal(item: Guardian) {
   // #region Repeats
   const selectRepeatDay = (event: React.MouseEvent<HTMLImageElement>) => {
     const isActive = event.currentTarget.classList.contains('fm-repeats-active');
+    const day = event.currentTarget.alt;
     if (isActive) {
-      event.currentTarget.classList.remove('fm-repeats-active');
+      const newRepeats = currentItem.repeats.filter((repeat) => repeat !== day);
+      setCurrentItem({ ...currentItem, repeats: newRepeats });
     } else {
-      event.currentTarget.classList.add('fm-repeats-active');
+      const newRepeats = [...currentItem.repeats, day];
+      setCurrentItem({ ...currentItem, repeats: newRepeats });
     }
   }
   // #endregion Repeats
@@ -140,67 +155,30 @@ function FormModal(item: Guardian) {
         closeAllDropdowns();
       }
     };
-
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
-
   // Selects the dropdown content and closes the dropdown
   const selectDropdownContent = (event: React.MouseEvent<HTMLDivElement>) => {
     const newSelection = event.currentTarget.innerText;
-    const selectedItem = event.currentTarget.parentElement?.parentElement?.firstChild as HTMLElement;
-    if (selectedItem) {
-      selectedItem.innerText = newSelection;
-    }
-    disableImpossibleDropdowns();
-  }
-
-  // Disable all impossible dropdowns
-  const disableImpossibleDropdowns = () => {
-    const warningValue = document.getElementById('fm-warning-dropdown')?.firstChild?.textContent;
-
-    const snooze = document.getElementById('fm-snooze-dropdown') as HTMLElement;
-    const snoozeValue = document.getElementById('fm-snooze-dropdown')?.firstChild?.textContent;
-    // Disable snooze if warning is set to none
-    if (snooze) {
-      const snoozeText = snooze.firstChild as HTMLElement;
-      if (warningValue === 'None') {
-        snoozeText.textContent = 'None';
-        snooze.classList.add('dropdown-disabled');
-      } else {
-        snooze.classList.remove('dropdown-disabled');
-      }
-    }
-
-    const extension = document.getElementById('fm-extension-dropdown') as HTMLElement;
-    const extensionValue = extension?.firstChild?.textContent;
-    // Disable extension if snooze or warning is set to none
-    if (extension) {
-      const extensionText = extension.firstChild as HTMLElement;
-      if (snoozeValue === 'None' || warningValue === 'None') {
-        extensionText.textContent = 'None';
-        extension.classList.add('dropdown-disabled');
-      } else {
-        extension.classList.remove('dropdown-disabled');
-        if (extensionValue === 'None') {
-          extensionText.textContent = '5 min';
-        }
-      }
-    }
-
-    const equation = document.getElementById('fm-equation-dropdown') as HTMLElement;
-    // Disable equation if warning or snooze is set to none
-    if (equation) {
-      const equationText = equation.firstChild as HTMLElement;
-      if (snoozeValue === 'None' || warningValue === 'None') {
-        equationText.textContent = 'None';
-        equation.classList.add('dropdown-disabled');
-      } else {
-        equation.classList.remove('dropdown-disabled');
-      }
+    switch (event.currentTarget.parentElement?.parentElement?.id) {
+      case 'fm-warning-dropdown':
+        setCurrentItem({ ...currentItem, warning: parseWarningText(newSelection) });
+        break;
+      case 'fm-snooze-dropdown':
+        setCurrentItem({ ...currentItem, snooze: parseSnoozeText(newSelection) });
+        break;
+      case 'fm-extension-dropdown':
+        setCurrentItem({ ...currentItem, extension: parseExtensionText(newSelection) });
+        break;
+      case 'fm-equation-dropdown':
+        setCurrentItem({ ...currentItem, equation: parseEquationText(newSelection) });
+        break;
+      default:
+        break;
     }
   }
   // #endregion Dropdown
@@ -208,7 +186,6 @@ function FormModal(item: Guardian) {
 
   // #region HTML
   return (
-    // TODO: use item to set the initial values of the form
     <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
         {/* Heading */}
@@ -242,37 +219,34 @@ function FormModal(item: Guardian) {
 
         {/* Repeats */}
         <div id="fm-repeats">
-          <img onClick={selectRepeatDay} src={imgRepeatMondays} alt="Monday" className=" " title="Repeats every Monday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatTuesdays} alt="Tuesday" className="fm-repeats-active" title="Repeats every Tuesday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatsWednesdays} alt="Wednesday" className="fm-repeats-active" title="Repeats every Wednesday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatsThursdays} alt="Thursday" className="fm-repeats-active" title="Repeats every Thursday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatsFridays} alt="Friday" className="fm-repeats-active" title="Repeats every Friday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatsSaturdays} alt="Saturday" className="fm-repeats-active" title="Repeats every Saturday if active" />
-          <img onClick={selectRepeatDay} src={imgRepeatsSundays} alt="Sunday" className="fm-repeats-active" title="Repeats every Sunday if active" />
+          {/* Monday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Monday"]} alt="Monday" className={currentItem.repeats.includes("Monday") ? "fm-repeats-active" : " "} title="Repeats every Monday if active" />
+          {/* Tuesday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Tuesday"]} alt="Tuesday" className={currentItem.repeats.includes("Tuesday") ? "fm-repeats-active" : " "} title="Repeats every Tuesday if active" />
+          {/* Wednesday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Wednesday"]} alt="Wednesday" className={currentItem.repeats.includes("Wednesday") ? "fm-repeats-active" : " "} title="Repeats every Wednesday if active" />
+          {/* Thursday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Thursday"]} alt="Thursday" className={currentItem.repeats.includes("Thursday") ? "fm-repeats-active" : " "} title="Repeats every Thursday if active" />
+          {/* Friday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Friday"]} alt="Friday" className={currentItem.repeats.includes("Friday") ? "fm-repeats-active" : " "} title="Repeats every Friday if active" />
+          {/* Saturday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Saturday"]} alt="Saturday" className={currentItem.repeats.includes("Saturday") ? "fm-repeats-active" : " "} title="Repeats every Saturday if active" />
+          {/* Sunday */}
+          <img onClick={selectRepeatDay} src={repeatImage["Sunday"]} alt="Sunday" className={currentItem.repeats.includes("Sunday") ? "fm-repeats-active" : " "} title="Repeats every Sunday if active" />
         </div>
 
         {/* Warning */}
         <div id="fm-warning" className="dropdown-wrapper" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">
           <h2>Warning:</h2>
           <div id="fm-warning-dropdown" className="dropdown" onClick={openDropdownContent}>
-            <p>15 min</p>
+            <p>{parseWarningNumber(currentItem.warning)}</p>
             <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="dropdown-content scrollable hidden">
-              <p onClick={selectDropdownContent}>None</p>
-              <p onClick={selectDropdownContent}>5 min</p>
-              <p onClick={selectDropdownContent}>10 min</p>
-              <p onClick={selectDropdownContent}>15 min</p>
-              <p onClick={selectDropdownContent}>20 min</p>
-              <p onClick={selectDropdownContent}>25 min</p>
-              <p onClick={selectDropdownContent}>30 min</p>
-              <p onClick={selectDropdownContent}>35 min</p>
-              <p onClick={selectDropdownContent}>40 min</p>
-              <p onClick={selectDropdownContent}>45 min</p>
-              <p onClick={selectDropdownContent}>50 min</p>
-              <p onClick={selectDropdownContent}>55 min</p>
-              <p onClick={selectDropdownContent}>60 min</p>
+              {warningOptions.map((option) => (
+              <p key={option} onClick={selectDropdownContent}>{option}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -280,19 +254,15 @@ function FormModal(item: Guardian) {
         {/* Snooze */}
         <div id="fm-snooze" className="dropdown-wrapper" title="Number of times the guardian can be delayed before forcing shutdown- requires warning time">
           <h2>Snooze:</h2>
-          <div id="fm-snooze-dropdown" className="dropdown" onClick={openDropdownContent}>
-            <p>Unlimited</p>
+          <div id="fm-snooze-dropdown" className={`dropdown ${!currentItem.warning ? "dropdown-disabled" : ""}`} onClick={openDropdownContent}>
+            <p>{parseSnoozeNumber(currentItem.snooze)}</p>
             <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="dropdown-content scrollable hidden">
-              <p onClick={selectDropdownContent}>None</p>
-              <p onClick={selectDropdownContent}>Once</p>
-              <p onClick={selectDropdownContent}>Twice</p>
-              <p onClick={selectDropdownContent}>3 Times</p>
-              <p onClick={selectDropdownContent}>4 Times</p>
-              <p onClick={selectDropdownContent}>5 Times</p>
-              <p onClick={selectDropdownContent}>Unlimited</p>
+              {snoozeOptions.map((option) => (
+              <p key={option} onClick={selectDropdownContent}>{option}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -300,24 +270,15 @@ function FormModal(item: Guardian) {
         {/* Extension */}
         <div id="fm-extension" className="dropdown-wrapper" title="Time added when snooze is selected - requires at least one snooze or warning time">
           <h2>Extension:</h2>
-          <div id="fm-extension-dropdown" className="dropdown" onClick={openDropdownContent}>
-            <p>5 min</p>
+          <div id="fm-extension-dropdown" className={`dropdown ${!currentItem.warning || !currentItem.snooze ? "dropdown-disabled" : ""}`} onClick={openDropdownContent}>
+            <p>{parseExtensionNumber(currentItem.extension)}</p>
             <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="dropdown-content scrollable hidden">
-              <p onClick={selectDropdownContent}>5 min</p>
-              <p onClick={selectDropdownContent}>10 min</p>
-              <p onClick={selectDropdownContent}>15 min</p>
-              <p onClick={selectDropdownContent}>20 min</p>
-              <p onClick={selectDropdownContent}>25 min</p>
-              <p onClick={selectDropdownContent}>30 min</p>
-              <p onClick={selectDropdownContent}>35 min</p>
-              <p onClick={selectDropdownContent}>40 min</p>
-              <p onClick={selectDropdownContent}>45 min</p>
-              <p onClick={selectDropdownContent}>50 min</p>
-              <p onClick={selectDropdownContent}>55 min</p>
-              <p onClick={selectDropdownContent}>60 min</p>
+              {extensionOptions.map((option) => (
+              <p key={option} onClick={selectDropdownContent}>{option}</p>
+              ))}
             </div>
           </div>
         </div>
@@ -325,23 +286,22 @@ function FormModal(item: Guardian) {
         {/* Equation */}
         <div id="fm-equation" className="dropdown-wrapper" title="Difficulty of the equation to extend time - requires at least one snooze or warning time">
           <h2>Equation:</h2>
-          <div id="fm-equation-dropdown" className="dropdown" onClick={openDropdownContent}>
-            <p>Easy</p>
+          <div id="fm-equation-dropdown" className={`dropdown ${!currentItem.warning || !currentItem.snooze ? "dropdown-disabled" : ""}`} onClick={openDropdownContent}>
+            <p>{parseEquationNumber(currentItem.equation)}</p>
             <div className="dropdown-flag">
               <img src={imgDropdownBtn} alt="Open" />
             </div>
             <div className="dropdown-content scrollable dropdown-content-top hidden">
-              <p onClick={selectDropdownContent}>None</p>
-              <p onClick={selectDropdownContent}>Easy</p>
-              <p onClick={selectDropdownContent}>Medium</p>
-              <p onClick={selectDropdownContent}>Hard</p>
+              {equationOptions.map((option) => (
+              <p key={option} onClick={selectDropdownContent}>{option}</p>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Save / Close Buttons */}
         <div className="row fm-button-wrapper">
-          <div className="button fm-button" onClick={saveGuardian}>
+          <div className="button fm-button" onClick={saveItem}>
             <img src={imgSaveBtn} alt="github" />
             <p>Save</p>
           </div>
