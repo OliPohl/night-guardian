@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
-// Importing styles, types and utils
+// Importing styles, types, components and utils
 import './form-modal.css';
 import { Guardian } from '../../shared/types/guardian';
+import { displayDisplayItem } from '../display/display-item.tsx';
 import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
 import { warningOptions, snoozeOptions, extensionOptions, equationOptions } from '../../shared/utils/guardian/guardian-options';
 
@@ -28,14 +29,9 @@ import imgCancelBtn from './resources/img-cancel-btn.svg';
 export const openFormModal = (item : Guardian) => {
   const fmElement = document.getElementById('fm-container') as HTMLElement;
   const root = createRoot(fmElement);
-  if (fmElement) {
+  const closeFormModal = () => root.unmount();
 
-    const closeFormModal = () => {
-      root.unmount();
-    };
-
-    root.render(<FormModal item={item} closeFormModal={closeFormModal} />);
-  }
+  root.render(<FormModal item={item} closeFormModal={closeFormModal} />);
 }
 // #endregion Exports
 
@@ -68,7 +64,13 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
     // TODO BACKEND: Save the guardian
-    // TODO: Save guardian to Display
+    while (currentItem.name === "NewGuardian"){
+      const newId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      if (!document.getElementById(newId)) {
+        currentItem.name = newId;
+      }
+    }
+    displayDisplayItem(currentItem);
     closeFormModal();
   }
 

@@ -32,7 +32,7 @@ function Sidebar() {
         <div className="small-divider"></div>
 
         {/* Tutorial */}
-        {/* TODO: tutorial button to video popup */}
+        {/* TODO: tutorial button with video popup and new tooltip system */}
 
         {/* Credits */}
         <p className="info-text">made by OliPohl</p>

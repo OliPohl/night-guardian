@@ -1,13 +1,16 @@
 // #region Imports
-// Importing styles and components
+// Importing necessary react libraries
+
+// Importing styles, types and components
 import './display.css';
+import { displayDisplayItem } from './display-item.tsx';
 import DisplayItem from './display-item';
 import { openFormModal } from '../form-modal';
 
 // Importing resources
 import imgRefreshGuardians from './resources/img-refresh-guardians.svg';
 import imgCreateGuardians from './resources/img-create-guardians.svg';
-import { newGuardian, testGuardianA, testGuardianB, testGuardianC } from '../../shared/utils/guardian/guardians';
+import { newGuardian } from '../../shared/utils/guardian/guardians';
 // #endregion Imports
 
 
@@ -57,9 +60,6 @@ function Display() {
 
       {/* Display Items */}
       <div id="display-items-container">
-        <DisplayItem {...testGuardianA} />
-        <DisplayItem {...testGuardianB} />
-        <DisplayItem {...testGuardianC} />
       </div>
 
       {/* Create Guardian */}

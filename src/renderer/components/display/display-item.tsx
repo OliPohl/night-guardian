@@ -1,6 +1,7 @@
 // #region Imports
 // Importing necessary react libraries
 import { useState, useEffect, useRef } from 'react';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 
 // Importing styles, types, components and utils
 import './display-item.css';
@@ -13,9 +14,33 @@ import imgdots from './resources/img-dots.svg';
 // #endregion Imports
 
 
+// #region Exports
+// Displays the Guardian as a DisplayItem
+export const displayDisplayItem = (item : Guardian) => {
+  // Check if the DisplayItem already exists
+  const possibleDI = document.getElementById(item.name);
+  if (possibleDI) {
+    possibleDI.remove();
+  }
+
+  // Create the DisplayItem
+  const displayItemsContainer = document.getElementById('display-items-container') as HTMLElement;
+  const displayHolder = document.createElement('div');
+  displayHolder.id = "dh#" + item.name;
+  displayItemsContainer.appendChild(displayHolder);
+  const root = createRoot(displayHolder);
+  const removeDisplayItem = () => {
+    displayHolder.remove();
+    root.unmount();
+  }
+  root.render(<DisplayItem item={item} removeDisplayItem={removeDisplayItem} />);
+};
+// #endregion Exports
+
+
 // #region DisplayItem
-function DisplayItem(item: Guardian) {
-    // #region Active State
+function DisplayItem({ item, removeDisplayItem}: { item: Guardian, removeDisplayItem: () => void}) {
+  // #region Active State
   // Changes the state of the current guardians active status
   const [active, setActive] = useState(item.active);
   const toggleActiveState = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,8 +95,7 @@ function DisplayItem(item: Guardian) {
     setDotsMenuVisible(false);
 
     // Remove the item from the display
-    const itemElement = document.getElementById(item.name);
-    if (itemElement) itemElement.remove();
+    removeDisplayItem();
     // TODO BACKEND: Remove the guardian from the backend
   };
   // #endregion Edit Dots
