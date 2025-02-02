@@ -1,71 +1,21 @@
 // #region Imports
 // Importing necessary react libraries
 import { useState, useEffect, useRef } from 'react';
-import { createRoot } from 'react-dom/client';
 
-// Importing styles, types and components
+// Importing styles, types, components and utils
 import './display-item.css';
-import { Guardian } from '../../types/guardian.ts';
+import { Guardian } from '../../shared/types/guardian.ts';
 import { openFormModal } from '../form-modal';
+import { parseEquationNumber, parseSnoozeNumber, parseRepeatString } from '../../shared/utils/guardian/guardian-parser.ts';
 
 // Importing resources
 import imgdots from './resources/img-dots.svg';
-import imgRepeatMondays from './resources/img-repeat-mondays.svg';
-import imgRepeatTuesdays from './resources/img-repeat-tuesdays.svg';
-import imgRepeatsWednesdays from './resources/img-repeat-wednesdays.svg';
-import imgRepeatsThursdays from './resources/img-repeat-thursdays.svg';
-import imgRepeatsFridays from './resources/img-repeat-fridays.svg';
-import imgRepeatsSaturdays from './resources/img-repeat-saturdays.svg';
-import imgRepeatsSundays from './resources/img-repeat-sundays.svg';
 // #endregion Imports
 
 
 // #region DisplayItem
 function DisplayItem(item: Guardian) {
-  // #region Converters
-  // Converts the equation number to the corresponding string representation
-  const getEquationText = (equation: number): string => {
-    switch (equation) {
-      case 1:
-        return 'Easy';
-      case 2:
-        return 'Medium';
-      case 3:
-        return 'Hard';
-      default:
-        return 'None';
-    }
-  };
-
-  // Converts the snooze number to the corresponding string representation
-  const getSnoozeText = (snooze: number): string => {
-    if (snooze === -1) {
-      return 'Unlimited';
-    } else if (snooze === 0) {
-      return 'None';
-    } else if (snooze === 1) {
-      return 'Once';
-    } else if (snooze === 2) {
-      return 'Twice';
-    } else {
-      return `${snooze} times`;
-    }
-  };
-
-  // Converts the weekday string to the corresponding image
-  const weekdayIcons: { [key: string]: string } = {
-    Monday: imgRepeatMondays,
-    Tuesday: imgRepeatTuesdays,
-    Wednesday: imgRepeatsWednesdays,
-    Thursday: imgRepeatsThursdays,
-    Friday: imgRepeatsFridays,
-    Saturday: imgRepeatsSaturdays,
-    Sunday: imgRepeatsSundays,
-  };
-  // #endregion Textifiers
-
-
-  // #region Active State
+    // #region Active State
   // Changes the state of the current guardians active status
   const [active, setActive] = useState(item.active);
   const toggleActiveState = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,7 +89,7 @@ function DisplayItem(item: Guardian) {
           <div id="di-repeats" className={`di-repeats-${item.repeats.length}`}>
             {item.repeats.length > 0 ? (
               item.repeats.map((day) => (
-                <img key={day} src={weekdayIcons[day]} alt={day} title={"Repeats every " + day} />
+                <img key={day} src={parseRepeatString[day]} alt={day} title={"Repeats every " + day} />
               ))) : 
               ( <p>None</p> )}
           </div>
@@ -147,9 +97,9 @@ function DisplayItem(item: Guardian) {
 
         {/* Warning, Snooze, Extension, Equation */}
         <p className="di-text" title="Time before the alarm when the guardian will prompt to snooze or acknowledge">{item.warning} min</p>
-        <p className="di-text" title="Number of times the guardian can be delayed before forcing shutdown">{getSnoozeText(item.snooze)}</p>
+        <p className="di-text" title="Number of times the guardian can be delayed before forcing shutdown">{parseSnoozeNumber(item.snooze)}</p>
         <p className="di-text" title="Time added when snooze is selected">{item.extension} min</p>
-        <p className="di-text" title="Difficulty of the equation to extend time">{getEquationText(item.equation)}</p>
+        <p className="di-text" title="Difficulty of the equation to extend time">{parseEquationNumber(item.equation)}</p>
 
         {/* Active State */}
         <div id="toggle-active-state">

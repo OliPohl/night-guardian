@@ -4,12 +4,12 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
 // Importing styles
-import './styles/general.css'
-import './styles/scrollbar.css'
-import './styles/divider.css'
-import './styles/button.css'
-import './styles/toggle.css'
-import './styles/dropdown.css'
+import './shared/styles/general.css'
+import './shared/styles/scrollbar.css'
+import './shared/styles/divider.css'
+import './shared/styles/button.css'
+import './shared/styles/toggle.css'
+import './shared/styles/dropdown.css'
 
 // Importing components
 import Titlebar from './components/titlebar'

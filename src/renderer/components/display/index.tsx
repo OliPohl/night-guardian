@@ -7,7 +7,7 @@ import { openFormModal } from '../form-modal';
 // Importing resources
 import imgRefreshGuardians from './resources/img-refresh-guardians.svg';
 import imgCreateGuardians from './resources/img-create-guardians.svg';
-import { newGuardian, testGuardianA, testGuardianB, testGuardianC } from './guardians';
+import { newGuardian, testGuardianA, testGuardianB, testGuardianC } from '../../shared/utils/guardian/guardians';
 // #endregion Imports
 
 

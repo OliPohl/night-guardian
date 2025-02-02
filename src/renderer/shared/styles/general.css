@@ -35,8 +35,8 @@
 .disabled{
   filter: none !important;
   cursor:auto !important;
-  pointer-events: none;
-  background-color: #707070 
+  pointer-events: none !important;
+  background-color: #707070 !important;
 }
 
 .row {

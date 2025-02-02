@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 
 // Importing styles and types
 import './form-modal.css';
-import { Guardian } from '../../types/guardian';
+import { Guardian } from '../../shared/types/guardian';
 
 // Importing resources for alarm
 import imgAlarmColon from './resources/img-alarm-colon.svg';
@@ -46,6 +46,8 @@ export const openFormModal = (item : Guardian) => {
 function FormModal(item: Guardian) {
   // Save a copy of the current item to only save the changes internally
   const [currentItem, setCurrentItem] = useState({ ...item });
+
+
   // #region Close/Save
   // Closes the form modal window
   const closeWindow = () => {
