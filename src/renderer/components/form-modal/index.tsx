@@ -24,6 +24,7 @@ import imgCancelBtn from './resources/img-cancel-btn.svg';
 
 
 // #region Exports
+// Opens the form modal window with the given guardian item
 export const openFormModal = (item : Guardian) => {
   const fmElement = document.getElementById('fm-container') as HTMLElement;
   const root = createRoot(fmElement);
@@ -63,16 +64,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // #endregion States
 
 
-  // #region Close/Save
-  // Closes the form modal window
-  // const closeWindow = () => {
-  //   const fmElement = document.getElementById('fm-container') as HTMLElement;
-  //   if (fmElement) {
-  //     fmElement.innerHTML = '';
-  //     root.unmount();
-  //   }
-  // };
-
+  // #region Save/Close
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
     // TODO BACKEND: Save the guardian
@@ -86,7 +78,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
       closeFormModal();
     }
   };
-  // #endregion Close/Save
+  // #endregion Save/Close
 
 
   // #region Alarm
