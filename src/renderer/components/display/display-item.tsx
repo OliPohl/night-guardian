@@ -1,7 +1,7 @@
 // #region Imports
 // Importing necessary react libraries
 import { useState, useEffect, useRef } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 
 // Importing styles, types, components and utils
 import './display-item.css';
