@@ -6,8 +6,7 @@ import { createRoot } from 'react-dom/client';
 // Importing styles, types and utils
 import './form-modal.css';
 import { Guardian } from '../../shared/types/guardian';
-import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber } from '../../shared/utils/guardian/guardian-parser';
-import { parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
+import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
 import { warningOptions, snoozeOptions, extensionOptions, equationOptions } from '../../shared/utils/guardian/guardian-options';
 
 // Importing resources for alarm
@@ -26,18 +25,22 @@ import imgCancelBtn from './resources/img-cancel-btn.svg';
 
 // #region Exports
 export const openFormModal = (item : Guardian) => {
-  const fmElement = document.getElementById('fm-container');
+  const fmElement = document.getElementById('fm-container') as HTMLElement;
+  const root = createRoot(fmElement);
   if (fmElement) {
-    const root = createRoot(fmElement);
-    root.render(<FormModal {...item} />);
-    // TODO: Fix creating root when root already exists
+
+    const closeFormModal = () => {
+      root.unmount();
+    };
+
+    root.render(<FormModal item={item} closeFormModal={closeFormModal} />);
   }
 }
 // #endregion Exports
 
 
 // #region FormModal
-function FormModal(item: Guardian) {
+function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: () => void }) {
   // #region States
   // Save a copy of the current item to only save the changes internally
   const [currentItem, setCurrentItemState] = useState({ ...item });
@@ -62,23 +65,25 @@ function FormModal(item: Guardian) {
 
   // #region Close/Save
   // Closes the form modal window
-  const closeWindow = () => {
-      const fmElement = document.getElementById('fm-container');
-      if (fmElement) {
-        fmElement.innerHTML = '';
-      }
-  };
+  // const closeWindow = () => {
+  //   const fmElement = document.getElementById('fm-container') as HTMLElement;
+  //   if (fmElement) {
+  //     fmElement.innerHTML = '';
+  //     root.unmount();
+  //   }
+  // };
 
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
-    // TODO BACKEND: Save the guardian and display it to the frontend
-    closeWindow();
+    // TODO BACKEND: Save the guardian
+    // TODO: Save guardian to Display
+    closeFormModal();
   }
 
   // Closes the form modal window when the background is clicked
   const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
-      closeWindow();
+      closeFormModal();
     }
   };
   // #endregion Close/Save
@@ -305,7 +310,7 @@ function FormModal(item: Guardian) {
             <img src={imgSaveBtn} alt="github" />
             <p>Save</p>
           </div>
-          <div className="button button-side-color fm-button" onClick={closeWindow}>
+          <div className="button button-side-color fm-button" onClick={closeFormModal}>
             <img src={imgCancelBtn} alt="github" />
             <p>Cancel</p>
           </div>
