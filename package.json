@@ -5,6 +5,7 @@
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {
+    "setup": "npm i npm-run-all",
     "dev": "npm-run-all --parallel dev:react dev:electron",
     "dev:react": "vite -c config/vite.config.ts",
     "dev:electron": "npm run transpile:electron && cross-env NODE_ENV=development electron .",
@@ -37,7 +38,12 @@
   },
   "build": {
     "appId": "com.olipohl.night-guardian",
-    "files": ["dist-electron", "dist-react"],
-    "extraResources" : [ "dist-electron/preload.cjs" ]
+    "files": [
+      "dist-electron",
+      "dist-react"
+    ],
+    "extraResources": [
+      "dist-electron/preload.cjs"
+    ]
   }
 }
