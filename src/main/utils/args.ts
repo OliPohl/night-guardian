@@ -6,16 +6,16 @@ export function isDev() : boolean {
 // #endregion Development
 
 
-// #region Enforcer
-// Returns true if the application is started as Enforcer
-export function isEnforcer() : boolean {
-  return process.argv.includes('--enforcer');
+// #region Guardian
+// Returns true if the application is started as Guardian
+export function isGuardian() : boolean {
+  return process.argv.includes('--guardian');
 }
 
-// Returns the Enforcer information from the command line arguments if it is started as Enforcer
-export function getEnforcerInfo() : string {
-  const guardianIndex = process.argv.indexOf('--enforcer');
+// Returns the Guardian information from the command line arguments if it is started as Guardian
+export function getGuardianInfo() : string {
+  const guardianIndex = process.argv.indexOf('--guardian');
   if (guardianIndex === -1) return '';
   return process.argv[guardianIndex + 1];
 }
-// #endregion Enforcer
+// #endregion Guardian

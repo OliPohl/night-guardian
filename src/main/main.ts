@@ -8,7 +8,7 @@ import { isDev } from './utils/args.js';
 import { getPreloadPath } from './utils/path-resolver.js';
 import { setupMaximizeStatus, setupWindowControls } from './utils/window-controls.js';
 import { setupExternalLinks } from './utils/external-links.js';
-import { setupGuardianHandlers } from './utils/guardian-handler.js';
+import { setupSchtasksHandlers } from './utils/schtasks-handler.js';
 // #endregion Imports
 
 
@@ -58,8 +58,8 @@ app.on('ready', () => {
   // Open the GitHub repository
   setupExternalLinks();
 
-  // Setup the guardian handlers
-  setupGuardianHandlers();
+  // Setup the schtasks handlers
+  setupSchtasksHandlers(app);
   // #endregion Api
 });
 // #endregion App
