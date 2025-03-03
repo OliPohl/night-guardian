@@ -1,8 +1,19 @@
+// #region Imports
+// Importing libraries
 import {app, BrowserWindow, screen, ipcMain, shell} from 'electron';
 import path from 'path';
-import { isDev } from './utils.js';
-import { getPreloadPath } from './path-resolver.js';
 
+// Importing utils
+import { isDev } from './utils/args.js';
+import { getPreloadPath } from './utils/path-resolver.js';
+import { setupMaximizeStatus, setupWindowControls } from './utils/window-controls.js';
+import { setupExternalLinks } from './utils/external-links.js';
+import { setupGuardianHandlers } from './utils/guardian-handler.js';
+// #endregion Imports
+
+
+// #region App
+// Create the main window
 let mainWindow: BrowserWindow | null;
 app.on('ready', () => {
   // Get the primary display's width and height
@@ -36,80 +47,19 @@ app.on('ready', () => {
     }
   });
 
-  // When the window is maximized, send the status to the renderer process
-  mainWindow.on('maximize', () => {
-    mainWindow?.webContents.send('window-maximize-status', true);
-  });
 
-  // When the window is unmaximized, send the status to the renderer process
-  mainWindow.on('unmaximize', () => {
-    mainWindow?.webContents.send('window-maximize-status', false);
-  });
+  // #region Api
+  // Sends the maximize status to the renderer process
+  setupMaximizeStatus(mainWindow);
+
+  // Setup the window controls on the titlebar
+  setupWindowControls(mainWindow);
+
+  // Open the GitHub repository
+  setupExternalLinks();
+
+  // Setup the guardian handlers
+  setupGuardianHandlers();
+  // #endregion Api
 });
-
-
-// Hide the app into the dock
-ipcMain.on('minimize-window', () => {
-  mainWindow?.minimize();
-});
-
-// Toggle maximize the window
-ipcMain.on('maximize-window', () => {
-  if (mainWindow?.isMaximized()) {
-    mainWindow?.unmaximize();
-  } else {
-    mainWindow?.maximize();
-  }
-});
-
-// Close the window
-ipcMain.on('close-window', () => {
-  mainWindow?.close();
-});
-
-// Open the GitHub repository
-ipcMain.on('open-github', () => {
-  shell.openExternal('https://github.com/OliPohl/night-guardian');
-});
-
-// Fetch guardians from the backend
-import type { Guardian } from '../shared/types/guardian.cts';
-ipcMain.handle('fetch-guardians', () => {
-  const guardians: Guardian[] = [
-    {
-      id: 1200200000,
-      alarm: '12:00',
-      repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      warning: 20,
-      snooze: 3,
-      extension: 30,
-      equation: 2,
-      active: true,
-    },
-    {
-      id: 2200200000,
-      alarm: '22:00',
-      repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      warning: 20,
-      snooze: -1,
-      extension: 30,
-      equation: 2,
-      active: false,
-    },
-  ];
-  return guardians;
-});
-
-// Save guardian
-ipcMain.on('save-guardian', (event, guardian: Guardian) => {
-  console.log(guardian);
-});
-
-// Delete guardian
-ipcMain.on('delete-guardian', (event, id: number) => {
-  console.log(id);
-});
-
-// TODO: refactor backend
-// TODO: implement main logic
-// TODO: think about frontend guardian logic
+// #endregion App

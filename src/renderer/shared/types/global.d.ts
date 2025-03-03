@@ -1,5 +1,10 @@
+// #region Imports
+// Importing types
 import { Guardian } from "../../../shared/types/guardian.cts";
+// #endregion Imports
 
+
+// #region Interfaces
 // Connecting backend api calls to the frontend with the window.api object
 export {};
 
@@ -25,3 +30,4 @@ declare global {
     };
   }
 }
+// #endregion Interfaces

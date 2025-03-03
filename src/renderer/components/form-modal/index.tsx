@@ -63,6 +63,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // #region Save/Close
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
+    // TODO: Add error handling for invalid inputs
     // Create a new id for the guardian
     let countId = 0;
     const alarmId = currentItem.alarm.replace(':', '').padStart(4, '0');

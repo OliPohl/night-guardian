@@ -1,7 +1,14 @@
+// #region Imports
+// Importing libraries
 import path from 'path';
 import { app } from 'electron';
-import { isDev } from './utils.js';
 
+// Importing functions
+import { isDev } from './args.js';
+// #endregion
+
+
+// #region Exports
 // Returns the path to the preload script
 export function getPreloadPath() {
   return path.join(
@@ -10,3 +17,4 @@ export function getPreloadPath() {
     '/dist-electron/main/preload.cjs'
   )
 }
+// #endregion Exports

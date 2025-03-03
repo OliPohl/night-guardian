@@ -1,3 +1,4 @@
+// Typescript configuration for the main process
 {
   "compilerOptions": {
     "strict": true,
