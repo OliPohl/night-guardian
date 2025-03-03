@@ -46,7 +46,6 @@ function Display() {
   // Fetch guardians from the backend
   const fetchGuardians = async () => {
     let guardians = await window.api.fetchGuardians();
-    guardians = guardians.sort((a, b) => a.id - b.id);
 
     // Display guardians
     for (const guardian of guardians) {

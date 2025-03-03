@@ -72,13 +72,12 @@ ipcMain.on('open-github', () => {
   shell.openExternal('https://github.com/OliPohl/night-guardian');
 });
 
-
 // Fetch guardians from the backend
 import type { Guardian } from '../shared/types/guardian.cts';
 ipcMain.handle('fetch-guardians', () => {
   const guardians: Guardian[] = [
     {
-      id: 1231111,
+      id: 1200200000,
       alarm: '12:00',
       repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       warning: 20,
@@ -88,7 +87,7 @@ ipcMain.handle('fetch-guardians', () => {
       active: true,
     },
     {
-      id: 1231122211,
+      id: 2200200000,
       alarm: '22:00',
       repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       warning: 20,
@@ -99,4 +98,14 @@ ipcMain.handle('fetch-guardians', () => {
     },
   ];
   return guardians;
+});
+
+// Save guardian
+ipcMain.on('save-guardian', (event, guardian: Guardian) => {
+  console.log(guardian);
+});
+
+// Delete guardian
+ipcMain.on('delete-guardian', (event, id: number) => {
+  console.log(id);
 });

@@ -18,6 +18,10 @@ declare global {
       openGitHub: () => void;
       // Fetches guardians from the backend
       fetchGuardians: () => Promise<Guardian[]>;
+      // Saves a guardian to the backend
+      saveGuardian: (guardian: Guardian) => void;
+      // Deletes a guardian from the backend
+      deleteGuardian: (id: number) => void;
     };
   }
 }

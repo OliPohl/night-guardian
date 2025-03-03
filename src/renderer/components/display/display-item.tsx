@@ -34,19 +34,29 @@ export const displayDisplayItem = (item : Guardian) => {
     root.unmount();
   }
   root.render(<DisplayItem item={item} removeDisplayItem={removeDisplayItem} />);
+
+  // Sort all DisplayItems by id
+  const items = Array.from(displayItemsContainer.children);
+  items.sort((a, b) => {
+    const idA = parseInt(a.id.replace('dh#', ''), 10);
+    const idB = parseInt(b.id.replace('dh#', ''), 10);
+    return idA - idB;
+  });
+  items.forEach(item => displayItemsContainer.appendChild(item));
 };
 // #endregion Exports
 
 
 // #region DisplayItem
-function DisplayItem({ item, removeDisplayItem}: { item: Guardian, removeDisplayItem: () => void}) {
+function DisplayItem({item, removeDisplayItem}: { item: Guardian, removeDisplayItem: () => void}) {
   // #region Active State
   // Changes the state of the current guardians active status
   const [active, setActive] = useState(item.active);
   const toggleActiveState = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.checked;
     setActive(newValue);
-    // TODO BACKEND: Update the guardian's active status
+    window.api.deleteGuardian(item.id);
+    window.api.saveGuardian({ ...item, active: newValue });
   };
   // #endregion Active State
 
@@ -93,10 +103,8 @@ function DisplayItem({ item, removeDisplayItem}: { item: Guardian, removeDisplay
   // Removes the clicked guardian from the display
   const removeItem = () => {
     setDotsMenuVisible(false);
-
-    // Remove the item from the display
+    window.api.deleteGuardian(item.id);
     removeDisplayItem();
-    // TODO BACKEND: Remove the guardian from the backend
   };
   // #endregion Edit Dots
 

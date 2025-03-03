@@ -63,14 +63,27 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // #region Save/Close
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
-    // TODO BACKEND: Save the guardian
-    while (currentItem.id === -1){
-      const newId = Math.floor(Math.random() * 1000000000);
-      // TODO: Create valid id
-      if (!document.getElementById(newId.toString())) {
+    // Create a new id for the guardian
+    let countId = 0;
+    while (currentItem.id === -1) {
+      const alarmId = currentItem.alarm.replace(':', '').padStart(4, '0');
+      const warningId = currentItem.warning.toString().padStart(2, '0');
+      const newId = parseInt(alarmId + warningId + countId.toString().padStart(4, '0'));
+      if (document.getElementById('dh#' + newId.toString()) === null) {
         currentItem.id = newId;
       }
+      countId++;
     }
+
+    // Delete the old guardian if it is not a new guardian
+    const displayHolder = document.getElementById('dh#' + currentItem.id.toString()) as HTMLElement;
+    if (displayHolder) {
+      displayHolder.remove();
+      window.api.deleteGuardian(currentItem.id);
+    }
+
+    // Save the new guardian
+    window.api.saveGuardian(currentItem);
     displayDisplayItem(currentItem);
     closeFormModal();
   }
@@ -189,7 +202,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
     <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
         {/* Heading */}
-        <h2>{currentItem.id.toString() !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
+        <h2>{currentItem.id.toString() !== "-1" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
         {/* Alarm */}
         <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed - you may also use your scroll wheel to change the time">

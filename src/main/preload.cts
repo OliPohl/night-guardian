@@ -9,5 +9,7 @@ contextBridge.exposeInMainWorld('api', {
   openGitHub: () => ipcRenderer.send('open-github'),
   fetchGuardians: () => {
     return ipcRenderer.invoke('fetch-guardians');
-  }
+  },
+  saveGuardian: (guardian: Guardian) => ipcRenderer.send('save-guardian', guardian),
+  deleteGuardian: (id: number) => ipcRenderer.send('delete-guardian', id),
 });
