@@ -47,6 +47,8 @@ app.on('ready', () => {
     }
   });
 
+  //TODO: Create logic that changes whether the app is running as guardian or not
+
 
   // #region Api
   // Sends the maximize status to the renderer process

@@ -59,6 +59,7 @@ export function setupSchtasksHandlers(app: Electron.App) {
     // Parse the guardians repeats
     const dayOfWeek = guardian.repeats.map(day => {
       switch (day) {
+        //TODO: Change the days format to the schtasks format
         case 'Sunday': return 'SUN';
         case 'Monday': return 'MON';
         case 'Tuesday': return 'TUE';

@@ -14,6 +14,7 @@ export function isGuardian() : boolean {
 
 // Returns the Guardian information from the command line arguments if it is started as Guardian
 export function getGuardianInfo() : string {
+  //TODO: Implement with actual Guardian information
   const guardianIndex = process.argv.indexOf('--guardian');
   if (guardianIndex === -1) return '';
   return process.argv[guardianIndex + 1];
