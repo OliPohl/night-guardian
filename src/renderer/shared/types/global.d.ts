@@ -1,3 +1,5 @@
+import { Guardian } from "../../../shared/types/guardian.cts";
+
 // Connecting backend api calls to the frontend with the window.api object
 export {};
 
@@ -14,6 +16,8 @@ declare global {
       onMaximize: (callback: (isMaximized: boolean) => void) => void;
       // Opens the GitHub repository in the default browser
       openGitHub: () => void;
+      // Fetches guardians from the backend
+      fetchGuardians: () => Promise<Guardian[]>;
     };
   }
 }

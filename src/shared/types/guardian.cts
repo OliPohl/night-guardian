@@ -1,6 +1,6 @@
-// Frontend Guardian type definition
+// Global Guardian type definition
 export interface Guardian {
-  name: string;
+  id: number;
   alarm: string;
   repeats: Array<string>;
   warning: number;

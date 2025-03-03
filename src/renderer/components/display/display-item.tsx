@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 
 // Importing styles, types, components and utils
 import './display-item.css';
-import { Guardian } from '../../shared/types/guardian.ts';
+import { Guardian } from '../../../shared/types/guardian.cts';
 import { openFormModal } from '../form-modal';
 import { parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, repeatImage } from '../../shared/utils/guardian/guardian-parser.ts';
 
@@ -18,15 +18,15 @@ import imgdots from './resources/img-dots.svg';
 // Displays the Guardian as a DisplayItem
 export const displayDisplayItem = (item : Guardian) => {
   // Check if the DisplayItem already exists
-  const possibleDI = document.getElementById(item.name);
-  if (possibleDI) {
-    possibleDI.remove();
+  const possibleID = document.getElementById(item.id.toString());
+  if (possibleID) {
+    possibleID.remove();
   }
 
   // Create the DisplayItem
   const displayItemsContainer = document.getElementById('display-items-container') as HTMLElement;
   const displayHolder = document.createElement('div');
-  displayHolder.id = "dh#" + item.name;
+  displayHolder.id = "dh#" + item.id.toString();
   displayItemsContainer.appendChild(displayHolder);
   const root = createRoot(displayHolder);
   const removeDisplayItem = () => {
@@ -103,7 +103,7 @@ function DisplayItem({ item, removeDisplayItem}: { item: Guardian, removeDisplay
 
   // #region HTML
   return (
-    <div id={item.name}>
+    <div id={item.id.toString()}>
       <div className="display-item">
         {/* Alarm Time */}
         <p className="di-text" title="Time the Guardian will shut down your PC if not snoozed">{item.alarm}</p>

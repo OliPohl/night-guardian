@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 
 // Importing styles, types, components and utils
 import './form-modal.css';
-import { Guardian } from '../../shared/types/guardian';
+import { Guardian } from '../../../shared/types/guardian.cts';
 import { displayDisplayItem } from '../display/display-item.tsx';
 import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
 import { warningOptions, snoozeOptions, extensionOptions, equationOptions } from '../../shared/utils/guardian/guardian-options';
@@ -64,10 +64,11 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // Saves the guardian and closes the form modal window
   const saveItem = () => {
     // TODO BACKEND: Save the guardian
-    while (currentItem.name === "NewGuardian"){
-      const newId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      if (!document.getElementById(newId)) {
-        currentItem.name = newId;
+    while (currentItem.id === -1){
+      const newId = Math.floor(Math.random() * 1000000000);
+      // TODO: Create valid id
+      if (!document.getElementById(newId.toString())) {
+        currentItem.id = newId;
       }
     }
     displayDisplayItem(currentItem);
@@ -188,7 +189,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
     <div id="fm-background" className="form-modal" onClick={handleBackgroundClick}>
       <div id="fm-window" className="panel scrollable">
         {/* Heading */}
-        <h2>{currentItem.name !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
+        <h2>{currentItem.id.toString() !== "NewGuardian" ? 'Edit Guardian' : 'Create Guardian'}</h2>
 
         {/* Alarm */}
         <div id="fm-alarm" title="Time the Guardian will shut down your PC if not snoozed - you may also use your scroll wheel to change the time">

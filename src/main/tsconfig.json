@@ -3,6 +3,8 @@
     "strict": true,
     "target": "esnext",
     "module": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "../../dist-electron",
     "skipLibCheck": true
   }
