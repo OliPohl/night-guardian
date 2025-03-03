@@ -13,6 +13,7 @@ export function setupGuardianHandlers() {
     const guardians: Guardian[] = [
       {
         id: 1200200000,
+        snoozeCount: 0,
         alarm: '12:00',
         repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         warning: 20,
@@ -23,6 +24,7 @@ export function setupGuardianHandlers() {
       },
       {
         id: 2200200000,
+        snoozeCount: 0,
         alarm: '22:00',
         repeats: ['Monday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         warning: 20,

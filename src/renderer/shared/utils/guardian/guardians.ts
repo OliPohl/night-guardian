@@ -7,6 +7,7 @@ import { Guardian } from '../../../../shared/types/guardian.cts';
 // This is the default guardian that will be used to create new guardians
 export const newGuardian: Guardian = {
   id: -1,
+  snoozeCount: 0,
   alarm: '23:00',
   repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   warning: 15,
@@ -22,6 +23,7 @@ export const newGuardian: Guardian = {
 // These are sample guardians that will be used to test the application
 export const testGuardianA: Guardian = {
   id: 2100,
+  snoozeCount: 0,
   alarm: '21:00',
   repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
   warning: 5,
@@ -33,6 +35,7 @@ export const testGuardianA: Guardian = {
 
 export const testGuardianB: Guardian = {
   id: 2355,
+  snoozeCount: 0,
   alarm: '23:55',
   repeats: ['Monday', 'Tuesday', 'Wednesday', 'Sunday'],
   warning: 10,
@@ -44,6 +47,7 @@ export const testGuardianB: Guardian = {
 
 export const testGuardianC: Guardian = {
   id: 2230,
+  snoozeCount: 0,
   alarm: '22:30',
   repeats: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
   warning: 10,
