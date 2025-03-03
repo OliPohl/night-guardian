@@ -1,10 +1,10 @@
 // #region Imports
 // Importing necessary react libraries
+import { useEffect } from 'react';
 
 // Importing styles, types and components
 import './display.css';
 import { displayDisplayItem } from './display-item.tsx';
-import DisplayItem from './display-item';
 import { openFormModal } from '../form-modal';
 
 // Importing resources
@@ -22,23 +22,56 @@ function Display() {
     const btnRefreshGuardians = document.getElementById('btn-refresh-guardians');
     if (btnRefreshGuardians) btnRefreshGuardians.classList.add('spin');
 
-    // Remove current DisplayItems
-    const displayItemsContainer = document.getElementById('display-items-container');
-    if (displayItemsContainer) displayItemsContainer.innerHTML = '';
-
     // Temporarily disable the create guardians button
     const btnCreateGuardians = document.getElementById('btn-create-guardians');
     if (btnCreateGuardians) btnCreateGuardians.classList.add('disabled');
 
+    removeDisplayItems();
+
     // Resets the refresh button and re-enables the create guardians button
-    const timeout = setTimeout(() => {
+    const timeout = setTimeout(async () => {
+      // Fetch guardians from the backend
+      await fetchGuardians();
+
+      // Stop spinning the refresh button
       if (btnRefreshGuardians) btnRefreshGuardians.classList.remove('spin');
       if (btnCreateGuardians) btnCreateGuardians.classList.remove('disabled');
-      // TODO BACKEND: Fetch guardians from the backend and display them
-      }, 3000);
+    }, 3000);
     return () => clearTimeout(timeout);
-    }
+  };
   // #endregion Refresh Guardians
+
+
+  // #region Fetch
+  // Fetch guardians from the backend
+  const fetchGuardians = async () => {
+    let guardians = await window.api.fetchGuardians();
+    guardians = guardians.sort((a, b) => a.id - b.id);
+
+    // Display guardians
+    for (const guardian of guardians) {
+      // Check if the guardian is already displayed and overwrite it
+      let displayItem = document.getElementById("dh#" + guardian.id);
+      if (displayItem){
+        displayItem.remove();
+      }
+      displayDisplayItem(guardian);
+    }
+  };
+
+  // Remove existing displayed guardians
+  const removeDisplayItems = () => {
+    // Remove current DisplayItems
+    const displayItemsContainer = document.getElementById('display-items-container');
+    if (displayItemsContainer) displayItemsContainer.innerHTML = '';
+  };
+
+  // Fetch guardians when the component is mounted
+  useEffect(() => {
+    removeDisplayItems();
+    fetchGuardians();
+  }, []);
+  // #endregion Fetch
 
 
   // #region HTML
