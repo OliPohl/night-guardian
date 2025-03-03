@@ -109,3 +109,7 @@ ipcMain.on('save-guardian', (event, guardian: Guardian) => {
 ipcMain.on('delete-guardian', (event, id: number) => {
   console.log(id);
 });
+
+// TODO: refactor backend
+// TODO: implement main logic
+// TODO: think about frontend guardian logic
