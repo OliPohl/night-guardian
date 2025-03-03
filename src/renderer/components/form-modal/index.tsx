@@ -65,9 +65,9 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   const saveItem = () => {
     // Create a new id for the guardian
     let countId = 0;
+    const alarmId = currentItem.alarm.replace(':', '').padStart(4, '0');
+    const warningId = currentItem.warning.toString().padStart(2, '0');
     while (currentItem.id === -1) {
-      const alarmId = currentItem.alarm.replace(':', '').padStart(4, '0');
-      const warningId = currentItem.warning.toString().padStart(2, '0');
       const newId = parseInt(alarmId + warningId + countId.toString().padStart(4, '0'));
       if (document.getElementById('dh#' + newId.toString()) === null) {
         currentItem.id = newId;
