@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 import './form-modal.css';
 import { Guardian } from '../../../shared/types/guardian.cts';
 import { displayDisplayItem } from '../display/display-item.tsx';
-import { repeatImage, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
+import { repeatImage, parseRepeatWeekday, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, parseWarningText, parseSnoozeText, parseExtensionText, parseEquationText } from '../../shared/utils/guardian/guardian-parser';
 import { warningOptions, snoozeOptions, extensionOptions, equationOptions } from '../../shared/utils/guardian/guardian-options';
 
 // Importing resources for alarm
@@ -131,7 +131,9 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
   // #region Repeats
   const selectRepeatDay = (event: React.MouseEvent<HTMLImageElement>) => {
     const isActive = event.currentTarget.classList.contains('fm-repeats-active');
-    const day = event.currentTarget.alt;
+    const day = parseRepeatWeekday(event.currentTarget.alt);
+    if (day === '') return;
+
     if (isActive) {
       const newRepeats = currentItem.repeats.filter((repeat) => repeat !== day);
       setCurrentItem({ ...currentItem, repeats: newRepeats });
@@ -234,19 +236,19 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
         {/* Repeats */}
         <div id="fm-repeats">
           {/* Monday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Monday"]} alt="Monday" className={currentItem.repeats.includes("Monday") ? "fm-repeats-active" : " "} title="Repeats every Monday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["MON"]} alt="Monday" className={currentItem.repeats.includes("MON") ? "fm-repeats-active" : " "} title="Repeats every Monday if active" />
           {/* Tuesday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Tuesday"]} alt="Tuesday" className={currentItem.repeats.includes("Tuesday") ? "fm-repeats-active" : " "} title="Repeats every Tuesday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["TUE"]} alt="Tuesday" className={currentItem.repeats.includes("TUE") ? "fm-repeats-active" : " "} title="Repeats every Tuesday if active" />
           {/* Wednesday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Wednesday"]} alt="Wednesday" className={currentItem.repeats.includes("Wednesday") ? "fm-repeats-active" : " "} title="Repeats every Wednesday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["WED"]} alt="Wednesday" className={currentItem.repeats.includes("WED") ? "fm-repeats-active" : " "} title="Repeats every Wednesday if active" />
           {/* Thursday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Thursday"]} alt="Thursday" className={currentItem.repeats.includes("Thursday") ? "fm-repeats-active" : " "} title="Repeats every Thursday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["THU"]} alt="Thursday" className={currentItem.repeats.includes("THU") ? "fm-repeats-active" : " "} title="Repeats every Thursday if active" />
           {/* Friday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Friday"]} alt="Friday" className={currentItem.repeats.includes("Friday") ? "fm-repeats-active" : " "} title="Repeats every Friday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["FRI"]} alt="Friday" className={currentItem.repeats.includes("FRI") ? "fm-repeats-active" : " "} title="Repeats every Friday if active" />
           {/* Saturday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Saturday"]} alt="Saturday" className={currentItem.repeats.includes("Saturday") ? "fm-repeats-active" : " "} title="Repeats every Saturday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["SAT"]} alt="Saturday" className={currentItem.repeats.includes("SAT") ? "fm-repeats-active" : " "} title="Repeats every Saturday if active" />
           {/* Sunday */}
-          <img onClick={selectRepeatDay} src={repeatImage["Sunday"]} alt="Sunday" className={currentItem.repeats.includes("Sunday") ? "fm-repeats-active" : " "} title="Repeats every Sunday if active" />
+          <img onClick={selectRepeatDay} src={repeatImage["SUN"]} alt="Sunday" className={currentItem.repeats.includes("SUN") ? "fm-repeats-active" : " "} title="Repeats every Sunday if active" />
         </div>
 
         {/* Warning */}

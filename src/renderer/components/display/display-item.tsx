@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client';
 import './display-item.css';
 import { Guardian } from '../../../shared/types/guardian.cts';
 import { openFormModal } from '../form-modal';
-import { parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, repeatImage } from '../../shared/utils/guardian/guardian-parser.ts';
+import { parseRepeatAbbreviation, parseWarningNumber, parseSnoozeNumber, parseExtensionNumber, parseEquationNumber, repeatImage } from '../../shared/utils/guardian/guardian-parser.ts';
 
 // Importing resources
 import imgdots from './resources/img-dots.svg';
@@ -121,7 +121,7 @@ function DisplayItem({item, removeDisplayItem}: { item: Guardian, removeDisplayI
           <div id="di-repeats" className={`di-repeats-${item.repeats.length}`}>
             {item.repeats.length > 0 ? (
               item.repeats.map((day) => (
-                <img key={day} src={repeatImage[day]} alt={day} title={"Repeats every " + day} />
+                <img key={day} src={repeatImage[day]} alt={day} title={"Repeats every " + parseRepeatAbbreviation(day)} />
               ))) : 
               ( <p>None</p> )}
           </div>

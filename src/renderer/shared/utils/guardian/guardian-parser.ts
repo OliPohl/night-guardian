@@ -13,14 +13,58 @@ import imgRepeatsSundays from './resources/img-repeat-sundays.svg';
 // #region Repeat
 // Converts the weekday string to the corresponding image
 export const repeatImage: { [key: string]: string } = {
-  Monday: imgRepeatMondays,
-  Tuesday: imgRepeatTuesdays,
-  Wednesday: imgRepeatsWednesdays,
-  Thursday: imgRepeatsThursdays,
-  Friday: imgRepeatsFridays,
-  Saturday: imgRepeatsSaturdays,
-  Sunday: imgRepeatsSundays,
+  MON: imgRepeatMondays,
+  TUE: imgRepeatTuesdays,
+  WED: imgRepeatsWednesdays,
+  THU: imgRepeatsThursdays,
+  FRI: imgRepeatsFridays,
+  SAT: imgRepeatsSaturdays,
+  SUN: imgRepeatsSundays,
 };
+
+// Converts the abbreviation to the corresponding weekday string
+export const parseRepeatAbbreviation = (repeat: string): string => {
+  switch (repeat) {
+    case 'MON':
+      return 'Monday';
+    case 'TUE':
+      return 'Tuesday';
+    case 'WED':
+      return 'Wednesday';
+    case 'THU':
+      return 'Thursday';
+    case 'FRI':
+      return 'Friday';
+    case 'SAT':
+      return 'Saturday';
+    case 'SUN':
+      return 'Sunday';
+    default:
+      return '';
+  }
+};
+
+// Converts the weekday string to the corresponding abbreviation
+export const parseRepeatWeekday = (repeat: string): string => {
+  switch (repeat) {
+    case 'Monday':
+      return 'MON';
+    case 'Tuesday':
+      return 'TUE';
+    case 'Wednesday':
+      return 'WED';
+    case 'Thursday':
+      return 'THU';
+    case 'Friday':
+      return 'FRI';
+    case 'Saturday':
+      return 'SAT';
+    case 'Sunday':
+      return 'SUN';
+    default:
+      return '';
+  }
+}
 // #endregion Repeat
 
 

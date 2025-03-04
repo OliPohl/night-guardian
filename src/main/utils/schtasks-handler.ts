@@ -19,7 +19,7 @@ export function setupSchtasksHandlers(app: Electron.App) {
         id: 1200200000,
         snoozeCount: 0,
         alarm: '12:00',
-        repeats: ['Monday','Thursday','Friday','Saturday','Sunday'],
+        repeats: ['MON','THU','FRI','SAT','SUN'],
         warning: 20,
         snooze: 3,
         extension: 30,
@@ -30,7 +30,7 @@ export function setupSchtasksHandlers(app: Electron.App) {
         id: 2200200000,
         snoozeCount: 0,
         alarm: '22:00',
-        repeats: ['Monday','Thursday','Friday','Saturday','Sunday'],
+        repeats: ['MON','THU','FRI','SAT','SUN'],
         warning: 20,
         snooze: -1,
         extension: 30,
@@ -56,21 +56,6 @@ export function setupSchtasksHandlers(app: Electron.App) {
     const warningHour = Math.floor(totalWarningMinutes / 60);
     const warningMinute = totalWarningMinutes % 60;
 
-    // Parse the guardians repeats
-    const dayOfWeek = guardian.repeats.map(day => {
-      switch (day) {
-        //TODO: Change the days format to the schtasks format
-        case 'Sunday': return 'SUN';
-        case 'Monday': return 'MON';
-        case 'Tuesday': return 'TUE';
-        case 'Wednesday': return 'WED';
-        case 'Thursday': return 'THU';
-        case 'Friday': return 'FRI';
-        case 'Saturday': return 'SAT';
-        default: return undefined;
-      }
-    }).filter(day => day !== undefined) as string[];
-
     // Create guardian info
     const guardianInfo = `--guardian true --id ${guardian.id} --snoozeCount ${guardian.snoozeCount} --alarm ${guardian.alarm} --repeats ${guardian.repeats} --warning ${guardian.warning} --snooze ${guardian.snooze} --extension ${guardian.extension} --equation ${guardian.equation} --active ${guardian.active}`;
 
@@ -78,7 +63,7 @@ export function setupSchtasksHandlers(app: Electron.App) {
     const exePath = path.join(app.getPath('exe'), 'night-guardian.exe');
 
     // Create the schtasks command
-    const command = `schtasks /create /tn "${name}" /tr "${exePath}" /sc weekly /d ${dayOfWeek.join(',')} /st ${warningHour}:${warningMinute}:00 /f`;
+    const command = `schtasks /create /tn "${name}" /tr "${exePath}" /sc weekly /d ${guardian.repeats.join(',')} /st ${warningHour}:${warningMinute}:00 /f`;
     //TODO: Add guardianInfo to the command
     //TODO: Change power mode
     //TODO: Change status enabled when guardian is inactive
@@ -106,3 +91,10 @@ export function setupSchtasksHandlers(app: Electron.App) {
 }
 // #endregion Export
 // TODO: Add functions for extending time
+
+
+
+
+const saveGuardian = (guardian: Guardian) => {
+  
+}
