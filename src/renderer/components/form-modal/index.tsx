@@ -68,7 +68,7 @@ function FormModal({ item, closeFormModal }: { item: Guardian, closeFormModal: (
     let countId = 0;
     const alarmId = currentItem.alarm.replace(':', '').padStart(4, '0');
     const warningId = currentItem.warning.toString().padStart(2, '0');
-    while (currentItem.id === -1) {
+    while (currentItem.id === -1 || document.getElementById('dh#' + currentItem.id.toString()) !== null) {
       const newId = parseInt(alarmId + warningId + countId.toString().padStart(4, '0'));
       if (document.getElementById('dh#' + newId.toString()) === null) {
         currentItem.id = newId;
