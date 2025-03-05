@@ -1,9 +1,15 @@
 // #region Imports
-// Importing the necessary modules and types
+// Importing modules
 import { ipcMain } from 'electron';
-import path from 'path';
 import { exec } from 'child_process';
+
+// Importing types
 import type { Guardian } from '../../shared/types/guardian.cjs';
+
+// Importing utils
+import { getExePath } from './path-resolver.js';
+import { getGuardianName, getEnforcerName, getGuardianWarning } from './guardian-parser.js';
+import { argToGuardian } from './args.js';
 // #endregion Imports
 
 
@@ -12,32 +18,32 @@ import type { Guardian } from '../../shared/types/guardian.cjs';
 export function setupSchtasksHandlers(app: Electron.App) {
   // #region Fetch
   // Fetch guardians from the backend
-  ipcMain.handle('fetch-guardians', () => {
-    //TODO: Implement fetch guardians
-    const guardians: Guardian[] = [
-      {
-        id: 1200200000,
-        snoozeCount: 0,
-        alarm: '12:00',
-        repeats: ['MON','THU','FRI','SAT','SUN'],
-        warning: 20,
-        snooze: 3,
-        extension: 30,
-        equation: 2,
-        active: true,
-      },
-      {
-        id: 2200200000,
-        snoozeCount: 0,
-        alarm: '22:00',
-        repeats: ['MON','THU','FRI','SAT','SUN'],
-        warning: 20,
-        snooze: -1,
-        extension: 30,
-        equation: 2,
-        active: false,
-      },
-    ];
+  ipcMain.handle('fetch-guardians', async () => {
+    const commandNames = 'schtasks /query /fo LIST';
+    // Fetch the task names that start with NightGuardian and end with #0
+    const guardianNames : String[] = await new Promise((resolve) => {
+      executeSchtask(commandNames, (response) => {
+        // Filter the LIST for the task names
+        const tasksNames = response.split('\n').filter(line => line.startsWith('TaskName:'));
+        // Filter the task names for the relevant ones
+        const relevantNames = tasksNames.filter(tasksNames => tasksNames.includes('NightGuardian') && tasksNames.includes('#0')).map(task => task.split(': ')[1].trim());
+        resolve(relevantNames.filter(name => name.endsWith('#0')));
+      });
+    });
+
+    // Fetch the guardian information for each guardian
+    const guardians : Guardian[] = [];
+    for (const guardianName of guardianNames) {
+      const commandInfo = `schtasks /query /tn ${guardianName} /xml | findstr /C:"Arguments"`;
+      const guardian : Guardian = await new Promise((resolve) => {
+        executeSchtask(commandInfo, (response) => {
+          // Convert the response to a guardian and resolve it
+          resolve(argToGuardian(response));
+        });
+      });
+      // Add the guardian to the list if it is not null
+      if (guardian.id !== -1) guardians.push(guardian);
+    }
     return guardians;
   });
   // #endregion Fetch
@@ -46,37 +52,14 @@ export function setupSchtasksHandlers(app: Electron.App) {
   // #region Save
   // Save guardian
   ipcMain.on('save-guardian', (event, guardian: Guardian) => {
-    // Create the guardian name
-    const name = `NightGuardian#${guardian.id}#0`;
-
-    // Calculate the guardians warning time
-    const [alarmHour, alarmMinute] = guardian.alarm.split(':').map(Number);
-    const totalAlarmMinutes = alarmHour * 60 + alarmMinute;
-    const totalWarningMinutes = totalAlarmMinutes - guardian.warning;
-    const warningHour = Math.floor(totalWarningMinutes / 60);
-    const warningMinute = totalWarningMinutes % 60;
-
-    // Create guardian info
-    const guardianInfo = `--guardian true --id ${guardian.id} --snoozeCount ${guardian.snoozeCount} --alarm ${guardian.alarm} --repeats ${guardian.repeats} --warning ${guardian.warning} --snooze ${guardian.snooze} --extension ${guardian.extension} --equation ${guardian.equation} --active ${guardian.active}`;
-
-    // Get the executable path
-    const exePath = path.join(app.getPath('exe'), 'night-guardian.exe');
-
     // Create the schtasks command
-    const command = `schtasks /create /tn "${name}" /tr "${exePath}" /sc weekly /d ${guardian.repeats.join(',')} /st ${warningHour}:${warningMinute}:00 /f`;
+    const command = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /tr "${getExePath()}" /sc weekly /d ${guardian.repeats.join(',')} /st ${getGuardianWarning(guardian)[0]}:${getGuardianWarning(guardian)[1]}:00 /f`;
+    executeSchtask(command , (response) => { console.log(response); });
+
     //TODO: Add guardianInfo to the command
     //TODO: Change power mode
     //TODO: Change status enabled when guardian is inactive
     //TODO: Add Enforcer
-    // Execute the schtasks command
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      console.log(`stdout: ${stdout}`);
-      console.error(`stderr: ${stderr}`);
-    });
   });
   // #endregion Save
 
@@ -84,8 +67,13 @@ export function setupSchtasksHandlers(app: Electron.App) {
   // #region Delete
   // Delete guardian
   ipcMain.on('delete-guardian', (event, id: number) => {
-    console.log(id);
-    // TODO: Implement delete guardian
+    console.log('Deleting guardian with id: ' + id);
+    // Delete the guardian associated with the given id
+    const commandGuardian = `schtasks /delete /tn "${getGuardianName(id)}" /f`;
+    executeSchtask(commandGuardian, (response) => { console.log(response); });
+    // Delete the enforcer associated with the given id
+    const commandEnforcer = `schtasks /delete /tn "${getEnforcerName(id)}" /f`;
+    executeSchtask(commandEnforcer, (response) => { console.log(response); });
   });
   // #endregion Delete
 }
@@ -93,8 +81,15 @@ export function setupSchtasksHandlers(app: Electron.App) {
 // TODO: Add functions for extending time
 
 
-
-
-const saveGuardian = (guardian: Guardian) => {
-  
-}
+// #region Functions
+// Executes the given schtasks command
+const executeSchtask = (command: string, callback: (response: string) => void) => {
+  exec(command, (error, stdout, stderr) => {
+    if (error){
+      callback(error.message);
+      return;
+    }
+    callback(stdout || stderr);
+  });
+};
+// #endregion Functions

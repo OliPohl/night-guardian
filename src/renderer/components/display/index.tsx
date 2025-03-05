@@ -8,7 +8,7 @@ import { displayDisplayItem } from './display-item.tsx';
 import { openFormModal } from '../form-modal';
 
 // Importing resources
-import imgRefreshGuardians from './resources/img-refresh-guardians.svg';
+import imgFetchGuardians from './resources/img-fetch-guardians.svg';
 import imgCreateGuardians from './resources/img-create-guardians.svg';
 import { newGuardian } from '../../shared/utils/guardian/guardians';
 // #endregion Imports
@@ -16,35 +16,12 @@ import { newGuardian } from '../../shared/utils/guardian/guardians';
 
 // #region Display
 function Display() {
-  // #region Refresh
-  const refreshGuardians = () => {
-    // Start spinning the refresh button
-    const btnRefreshGuardians = document.getElementById('btn-refresh-guardians');
-    if (btnRefreshGuardians) btnRefreshGuardians.classList.add('spin');
-
-    // Temporarily disable the create guardians button
-    const btnCreateGuardians = document.getElementById('btn-create-guardians');
-    if (btnCreateGuardians) btnCreateGuardians.classList.add('disabled');
-
-    removeDisplayItems();
-
-    // Resets the refresh button and re-enables the create guardians button
-    const timeout = setTimeout(async () => {
-      // Fetch guardians from the backend
-      await fetchGuardians();
-
-      // Stop spinning the refresh button
-      if (btnRefreshGuardians) btnRefreshGuardians.classList.remove('spin');
-      if (btnCreateGuardians) btnCreateGuardians.classList.remove('disabled');
-    }, 3000);
-    return () => clearTimeout(timeout);
-  };
-  // #endregion Refresh Guardians
-
-
   // #region Fetch
   // Fetch guardians from the backend
   const fetchGuardians = async () => {
+    fetchAnimation(true);
+    removeDisplayItems();
+
     let guardians = await window.api.fetchGuardians();
 
     // Display guardians
@@ -56,6 +33,7 @@ function Display() {
       }
       displayDisplayItem(guardian);
     }
+    fetchAnimation(false);
   };
 
   // Remove existing displayed guardians
@@ -65,9 +43,21 @@ function Display() {
     if (displayItemsContainer) displayItemsContainer.innerHTML = '';
   };
 
+  // Fetch the animation of the buttons
+  const fetchAnimation = (value: boolean) => {
+    // Toggles the Create Guardian button
+    const btnCreateGuardians = document.getElementById('btn-create-guardians');
+    if (btnCreateGuardians && value) btnCreateGuardians.classList.add('disabled');
+    if (btnCreateGuardians && !value) btnCreateGuardians.classList.remove('disabled');
+
+    // Toggles the Fetch Guardians button
+    const btnFetchGuardians = document.getElementById('btn-fetch-guardians');
+    if (btnFetchGuardians && value) btnFetchGuardians.classList.add('spin');
+    if (btnFetchGuardians && !value) btnFetchGuardians.classList.remove('spin');
+  };
+
   // Fetch guardians when the component is mounted
   useEffect(() => {
-    removeDisplayItems();
     fetchGuardians();
   }, []);
   // #endregion Fetch
@@ -76,8 +66,8 @@ function Display() {
   // #region HTML
   return (
     <div id="display" className="panel scrollable">
-      {/* Refresh Guardians */}
-      <img id="btn-refresh-guardians" className="img-button" src={imgRefreshGuardians} alt="search button" title="Refresh Guardians" onClick={refreshGuardians} />
+      {/* Fetch Guardians */}
+      <img id="btn-fetch-guardians" className="img-button" src={imgFetchGuardians} alt="search button" title="Fetch Guardians" onClick={fetchGuardians} />
 
       {/* Display Headings */}
       <div id="display-heading-container">

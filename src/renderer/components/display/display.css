@@ -7,8 +7,8 @@
 /* #endregion General */
 
 
-/* #region Refresh */
-#btn-refresh-guardians {
+/* #region Fetch */
+#btn-fetch-guardians {
   position: fixed;
   right: 345px;
   top: 38px;
@@ -28,7 +28,7 @@
     transform: rotate(720deg);
   }
 }
-/* #endregion Refresh */
+/* #endregion Fetch */
 
 
 /* #region Heading */
