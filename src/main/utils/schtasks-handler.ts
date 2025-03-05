@@ -45,12 +45,13 @@ export function setupSchtasksHandlers(app: Electron.App) {
       if (guardian.id !== -1) guardians.push(guardian);
     }
     return guardians;
+    //TODO: Also fetch snoozed guardians and check if all guardians have the right path and fix them if not
   });
   // #endregion Fetch
 
 
   // #region Save
-  ipcMain.on('save-guardian', (event, guardian: Guardian) => {
+  ipcMain.on('save-guardian', (_event, guardian: Guardian) => {
     const kys = !(guardian.snoozeCount === 0);
     // Create the guardian xml
     const guardianXML = createXML(getNextWarningTime(guardian), getGuardianName(guardian.id, guardian.snoozeCount), kys.toString(), createTriggerXML(getNextWarningTime(guardian), guardian.repeats, kys, guardian.active), getExePath(), guardianToArg(guardian));
@@ -71,13 +72,14 @@ export function setupSchtasksHandlers(app: Electron.App) {
 
 
   // #region Delete
-  ipcMain.on('delete-guardian', (event, id: number) => {
+  ipcMain.on('delete-guardian', (_event, id: number) => {
     // Delete the guardian associated with the given id
     const commandGuardian = `schtasks /delete /tn "${getGuardianName(id)}" /f`;
     executeSchtask(commandGuardian, (response) => { console.log(response); });
     // Delete the enforcer associated with the given id
     const commandEnforcer = `schtasks /delete /tn "${getEnforcerName(id)}" /f`;
     executeSchtask(commandEnforcer, (response) => { console.log(response); });
+    //TODO: Also delete all the snoozed guardians
   });
   // #endregion Delete
 
