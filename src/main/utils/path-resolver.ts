@@ -22,4 +22,9 @@ export function getPreloadPath() {
 export function getExePath() {
   return path.join(app.getPath('exe'), 'night-guardian.exe');
 }
+
+// Returns the Temp path
+export function getTempPath() {
+  return app.getPath('temp');
+}
 // #endregion Exports

@@ -7,8 +7,7 @@ import { exec } from 'child_process';
 import type { Guardian } from '../../shared/types/guardian.cjs';
 
 // Importing utils
-import { getExePath } from './path-resolver.js';
-import { getGuardianName, getEnforcerName, getGuardianWarning } from './guardian-parser.js';
+import { getGuardianName, getEnforcerName, guardianToXML, saveGuardianXML } from './guardian-parser.js';
 import { argToGuardian } from './args.js';
 // #endregion Imports
 
@@ -17,7 +16,6 @@ import { argToGuardian } from './args.js';
 // Setup the Schtasks handlers
 export function setupSchtasksHandlers(app: Electron.App) {
   // #region Fetch
-  // Fetch guardians from the backend
   ipcMain.handle('fetch-guardians', async () => {
     const commandNames = 'schtasks /query /fo LIST';
     // Fetch the task names that start with NightGuardian and end with #0
@@ -50,22 +48,16 @@ export function setupSchtasksHandlers(app: Electron.App) {
 
 
   // #region Save
-  // Save guardian
   ipcMain.on('save-guardian', (event, guardian: Guardian) => {
     // Create the schtasks command
-    const command = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /tr "${getExePath()}" /sc weekly /d ${guardian.repeats.join(',')} /st ${getGuardianWarning(guardian)[0]}:${getGuardianWarning(guardian)[1]}:00 /f`;
+    const command = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${saveGuardianXML(guardian)}"`;
     executeSchtask(command , (response) => { console.log(response); });
-
-    //TODO: Add guardianInfo to the command
-    //TODO: Change power mode
-    //TODO: Change status enabled when guardian is inactive
     //TODO: Add Enforcer
   });
   // #endregion Save
 
 
   // #region Delete
-  // Delete guardian
   ipcMain.on('delete-guardian', (event, id: number) => {
     console.log('Deleting guardian with id: ' + id);
     // Delete the guardian associated with the given id
