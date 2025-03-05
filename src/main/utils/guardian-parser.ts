@@ -1,16 +1,7 @@
 // #region Imports
-// Importing modules
-import path from 'path';
-import fs from 'fs';
-
 // Importing types
 import type { Guardian } from '../../shared/types/guardian.cjs';
-
-// Importing utils
-import { getExePath, getTempPath } from './path-resolver.js';
-import { guardianToArg } from './args.js';
 // #endregion Imports
-
 
 // #region Name
 // Returns the guardians schtasks name for the given id and snoozeCount
@@ -25,10 +16,31 @@ export function getEnforcerName(id: number, snoozeCount: number = 0) {
 // #endregion Name
 
 
+// #region Alarm
+// Returns the guardians alarm  with snooze in [hour, min]
+export function getGuardianAlarmWithSnooze(guardian: Guardian) {
+  const [alarmHour, alarmMinute] = guardian.alarm.split(':').map(Number);
+  const totalAlarmMinutes = alarmHour * 60 + alarmMinute;
+  const totalSnoozeMinutes = guardian.snooze * guardian.snoozeCount;
+  const totalAlarmMinutesWithSnooze = totalAlarmMinutes + totalSnoozeMinutes;
+  return [Math.floor(totalAlarmMinutesWithSnooze / 60), totalAlarmMinutesWithSnooze % 60];
+}
+
+// Returns the next alarm time in 2025-03-06T17:35:47 format
+export function getNextAlarmTime(guardian: Guardian) {
+  const [hour, min] = getGuardianAlarmWithSnooze(guardian);
+  const today = new Date();
+  const alarm = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hour, min);
+  if(alarm.getTime() < today.getTime()) alarm.setDate(alarm.getDate() + 1);
+  return alarm.toISOString().split('.')[0];
+}
+// #endregion Alarm
+
+
 // #region Warning
 // Returns the guardians warning time in [hour, min]
 export function getGuardianWarning(guardian: Guardian) {
-  const [alarmHour, alarmMinute] = guardian.alarm.split(':').map(Number);
+  const [alarmHour, alarmMinute] = getGuardianAlarmWithSnooze(guardian);
   const totalAlarmMinutes = alarmHour * 60 + alarmMinute;
   const totalWarningMinutes = totalAlarmMinutes - guardian.warning;
   return [Math.floor(totalWarningMinutes / 60), totalWarningMinutes % 60];
@@ -45,109 +57,26 @@ export function getNextWarningTime(guardian: Guardian) {
 // #endregion Warning
 
 
-// #region xml
-export function guardianToXML(guardian: Guardian, kys: boolean = false) {
-  let trigger = '';
-  if(kys) {
-    trigger = `<TimeTrigger>
-      <StartBoundary>${getNextWarningTime(guardian)}</StartBoundary>
-      <EndBoundary>${getNextWarningTime(guardian)}</EndBoundary>
-    </TimeTrigger>`;
-  } else if (guardian.repeats.length === 0) {
-    trigger = `<TimeTrigger>
-      <StartBoundary>${getNextWarningTime(guardian)}</StartBoundary>
-      ${guardian.active ? '' : '<Enabled>false</Enabled>'}
-    </TimeTrigger>`;
-  } else {
-    trigger = `<CalendarTrigger>
-      <StartBoundary>${getNextWarningTime(guardian)}</StartBoundary>
-      ${guardian.active ? '' : '<Enabled>false</Enabled>'}
-      <ScheduleByWeek>
-        <WeeksInterval>1</WeeksInterval>
-        <DaysOfWeek>
-          ${getGuardianRepeatsXML(guardian)}
-        </DaysOfWeek>
-      </ScheduleByWeek>
-    </CalendarTrigger>`;
+// #region Repeats
+// Converts the abbreviation to the corresponding weekday string
+export const parseRepeatAbbreviation = (repeat: string): string => {
+  switch (repeat) {
+    case 'MON':
+      return 'Monday';
+    case 'TUE':
+      return 'Tuesday';
+    case 'WED':
+      return 'Wednesday';
+    case 'THU':
+      return 'Thursday';
+    case 'FRI':
+      return 'Friday';
+    case 'SAT':
+      return 'Saturday';
+    case 'SUN':
+      return 'Sunday';
+    default:
+      return '';
   }
-
-
-  return `<?xml version="1.0" encoding="UTF-16"?>
-          <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
-            <RegistrationInfo>
-              <Date>${new Date().toISOString().split('.')[0]}</Date>
-              <Author>NightGuardian</Author>
-              <URI>\\${getGuardianName(guardian.id, guardian.snoozeCount)}</URI>
-            </RegistrationInfo>
-            <Principals>
-              <Principal id="Author">
-                <LogonType>InteractiveToken</LogonType>
-              </Principal>
-            </Principals>
-            <Settings>
-              ${kys ? '<DeleteExpiredTaskAfter>PT0S</DeleteExpiredTaskAfter>' : ''}
-              <AllowHardTerminate>false</AllowHardTerminate>
-              <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
-              <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
-              <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
-              <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
-              <IdleSettings>
-                <StopOnIdleEnd>false</StopOnIdleEnd>
-                <RestartOnIdle>false</RestartOnIdle>
-              </IdleSettings>
-            </Settings>
-            <Triggers>
-              ${trigger}
-            </Triggers>
-            <Actions Context="Author">
-              <Exec>
-                <Command>${getExePath()}</Command>
-                <Arguments>${guardianToArg(guardian)}</Arguments>
-              </Exec>
-            </Actions>
-          </Task>`;
-}
-
-
-// Save temporary saves the xml to a file
-export function saveGuardianXML(guardian: Guardian, kys: boolean = false) {
-  const filePath = path.join(getTempPath(), '/night-guardian.xml')
-  console.log(filePath);
-  fs.writeFileSync(filePath, guardianToXML(guardian, kys));
-  return filePath;
-}
-
-// Returns the guardians repeats in <Monday /> \n <Tuesday /> ... format
-export function getGuardianRepeatsXML(guardian: Guardian) {
-  let repeats = '';
-  for(const day of guardian.repeats) {
-    switch(day) {
-      case 'SUN':
-        repeats += '<Sunday />';
-        break;
-      case 'MON':
-        repeats += '<Monday />';
-        break;
-      case 'TUE':
-        repeats += '<Tuesday />';
-        break;
-      case 'WED':
-        repeats += '<Wednesday />';
-        break;
-      case 'THU':
-        repeats += '<Thursday />';
-        break;
-      case 'FRI':
-        repeats += '<Friday />';
-        break;
-      case 'SAT':
-        repeats += '<Saturday />';
-        break;
-      }
-    repeats += '\n';
-  }
-  return repeats;
-}
-// #endregion xml
-
-//TODO: Refactor XML
+};
+// #endregion Repeats

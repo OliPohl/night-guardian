@@ -1,14 +1,16 @@
 // #region Imports
 // Importing modules
-import { ipcMain } from 'electron';
+import { ipcMain, ipcRenderer } from 'electron';
 import { exec } from 'child_process';
 
 // Importing types
 import type { Guardian } from '../../shared/types/guardian.cjs';
 
 // Importing utils
-import { getGuardianName, getEnforcerName, guardianToXML, saveGuardianXML } from './guardian-parser.js';
-import { argToGuardian } from './args.js';
+import { getGuardianName, getEnforcerName, getNextWarningTime, getNextAlarmTime } from './guardian-parser.js';
+import { argToGuardian, guardianToArg } from './args.js';
+import { createXML, saveXML, createTriggerXML } from './xml-creator.js';
+import { getExePath } from './path-resolver.js';
 // #endregion Imports
 
 
@@ -49,17 +51,27 @@ export function setupSchtasksHandlers(app: Electron.App) {
 
   // #region Save
   ipcMain.on('save-guardian', (event, guardian: Guardian) => {
-    // Create the schtasks command
-    const command = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${saveGuardianXML(guardian)}"`;
-    executeSchtask(command , (response) => { console.log(response); });
-    //TODO: Add Enforcer
+    const kys = !(guardian.snoozeCount === 0);
+    // Create the guardian xml
+    const guardianXML = createXML(getNextWarningTime(guardian), getGuardianName(guardian.id, guardian.snoozeCount), kys.toString(), createTriggerXML(getNextWarningTime(guardian), guardian.repeats, kys, guardian.active), getExePath(), guardianToArg(guardian));
+    // Create the enforcer xml
+    const enforcerXML = createXML(getNextAlarmTime(guardian), getEnforcerName(guardian.id), kys.toString(), createTriggerXML(getNextAlarmTime(guardian), guardian.repeats, kys, guardian.active), "shutdown /s /f", "");
+
+    // Create the guardian schtasks command
+    const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${saveXML(guardianXML, 'NightGuardian')}" /f`;
+    // Create the enforcer schtasks command
+    const commandEnforcer = `schtasks /create /tn "${getEnforcerName(guardian.id, guardian.snoozeCount)}" /xml "${saveXML(enforcerXML, 'NightGuardian')}" /f`;
+
+    // Execute the guardian schtasks command
+    executeSchtask(commandGuardian , (response) => { console.log(response); });
+    // Execute the enforcer schtasks command
+    executeSchtask(commandEnforcer, (response) => { console.log(response); });
   });
   // #endregion Save
 
 
   // #region Delete
   ipcMain.on('delete-guardian', (event, id: number) => {
-    console.log('Deleting guardian with id: ' + id);
     // Delete the guardian associated with the given id
     const commandGuardian = `schtasks /delete /tn "${getGuardianName(id)}" /f`;
     executeSchtask(commandGuardian, (response) => { console.log(response); });
@@ -68,12 +80,22 @@ export function setupSchtasksHandlers(app: Electron.App) {
     executeSchtask(commandEnforcer, (response) => { console.log(response); });
   });
   // #endregion Delete
+
+
+  // #region Snooze
+  // Snoozes the guardian
+  ipcMain.on('snooze-guardian', (event, guardian: Guardian) => {
+    let snoozedGuardian = guardian;
+    snoozedGuardian.snoozeCount++;
+    ipcRenderer.send('save-guardian', snoozedGuardian);
+    //TODO: Disable current guardian/enforcer once
+  });
+  // #endregion Snooze
 }
 // #endregion Export
-// TODO: Add functions for extending time
 
 
-// #region Functions
+// #region Ulti
 // Executes the given schtasks command
 const executeSchtask = (command: string, callback: (response: string) => void) => {
   exec(command, (error, stdout, stderr) => {
@@ -84,4 +106,4 @@ const executeSchtask = (command: string, callback: (response: string) => void) =
     callback(stdout || stderr);
   });
 };
-// #endregion Functions
+// #endregion Ulti
