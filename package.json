@@ -6,9 +6,11 @@
   "main": "dist-electron/main/main.js",
   "scripts": {
     "setup": "npm i npm-run-all",
-    "dev": "npm-run-all --parallel dev:react dev:electron",
+    "dev:editor": "npm-run-all --parallel dev:react dev:electron-editor",
+    "dev:guardian": "npm-run-all --parallel dev:react dev:electron-guardian",
     "dev:react": "vite -c config/vite.config.ts",
-    "dev:electron": "npm run transpile:electron && cross-env NODE_ENV=development electron .",
+    "dev:electron-editor": "npm run transpile:electron && cross-env NODE_ENV=dev-editor electron .",
+    "dev:electron-guardian": "npm run transpile:electron && cross-env NODE_ENV=dev-guardian electron .",
     "build": "tsc -b && vite build -c config/vite.config.ts",
     "lint": "eslint . -c config/eslint.config.js",
     "preview": "vite preview -c config/vite.config.ts",

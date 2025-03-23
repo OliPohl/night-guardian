@@ -5,9 +5,13 @@ import type { Guardian } from '../../shared/types/guardian.cjs';
 
 
 // #region Development
-// Return true if the enviroment is started with the development flag
-export function isDev() : boolean {
-  return process.env.NODE_ENV === 'development';
+// Returns the current environment the application is running in
+export function getCurrentEnv() : number {
+  switch (process.env.NODE_ENV) {
+    case 'dev-editor': return 0;
+    case 'dev-guardian': return 1;
+  }
+  return -1;
 }
 // #endregion Development
 

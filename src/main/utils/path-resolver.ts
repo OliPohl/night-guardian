@@ -4,7 +4,7 @@ import path from 'path';
 import { app } from 'electron';
 
 // Importing functions
-import { isDev } from './args.js';
+import { getCurrentEnv } from './args.js';
 // #endregion
 
 
@@ -13,7 +13,7 @@ import { isDev } from './args.js';
 export function getPreloadPath() {
   return path.join(
     app.getAppPath(),
-    isDev() ? '.' : '..',
+    getCurrentEnv() != -1 ? '.' : '..',
     '/dist-electron/main/preload.cjs'
   )
 }

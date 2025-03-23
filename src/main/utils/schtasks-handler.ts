@@ -1,6 +1,6 @@
 // #region Imports
 // Importing modules
-import { ipcMain, ipcRenderer } from 'electron';
+import { ipcMain } from 'electron';
 import { exec } from 'child_process';
 
 // Importing types
@@ -83,21 +83,23 @@ export function setupSchtasksHandlers(app: Electron.App) {
   });
   // #endregion Delete
 
+  //TODO: Create Delete all function for deinstall
+
 
   // #region Snooze
   // Snoozes the guardian
-  ipcMain.on('snooze-guardian', (event, guardian: Guardian) => {
-    let snoozedGuardian = guardian;
-    snoozedGuardian.snoozeCount++;
-    ipcRenderer.send('save-guardian', snoozedGuardian);
-    //TODO: Disable current guardian/enforcer once
-  });
+  // ipcMain.on('snooze-guardian', (event, guardian: Guardian) => {
+  //   let snoozedGuardian = guardian;
+  //   snoozedGuardian.snoozeCount++;
+  //   ipcRenderer.send('save-guardian', snoozedGuardian);
+  //   //TODO: Disable current guardian/enforcer once
+  // });
   // #endregion Snooze
 }
 // #endregion Export
 
 
-// #region Ulti
+// #region Util
 // Executes the given schtasks command
 const executeSchtask = (command: string, callback: (response: string) => void) => {
   exec(command, (error, stdout, stderr) => {
@@ -108,4 +110,4 @@ const executeSchtask = (command: string, callback: (response: string) => void) =
     callback(stdout || stderr);
   });
 };
-// #endregion Ulti
+// #endregion Util
