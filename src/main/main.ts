@@ -1,7 +1,6 @@
 // #region Imports
 // Importing libraries
 import {app, BrowserWindow, screen } from 'electron';
-
 import path from 'path';
 
 // Importing utils
@@ -10,6 +9,7 @@ import { getPreloadPath } from './utils/path-resolver.js';
 import { setupMaximizeStatus, setupWindowControls } from './utils/window-controls.js';
 import { setupExternalLinks } from './utils/external-links.js';
 import { setupSchtasksHandlers } from './utils/schtasks-handler.js';
+import { setupGuardianHandlers } from './utils/guardian-handler.js';
 // #endregion Imports
 
 
@@ -20,13 +20,12 @@ app.on('ready', () => {
   // Get the primary display's width and height
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
 
-  const launchAsGuardian : boolean = getCurrentEnv() === 1 || isGuardian() ? true : false;
   // Create the main browser window.
   mainWindow = new BrowserWindow({
-    backgroundColor: launchAsGuardian ? "rgba(0, 0, 0, 0.8)" : "#2c303d",
-    transparent: launchAsGuardian,
-    fullscreen: launchAsGuardian,
-    resizable: !launchAsGuardian,
+    backgroundColor: isGuardian() ? "rgba(0, 0, 0, 0.8)" : "#2c303d",
+    transparent: isGuardian(),
+    fullscreen: isGuardian(),
+    resizable: !isGuardian(),
     frame: false,
     width: Math.round(screenWidth * (2 / 3)),
     height: Math.round(screenHeight * (2 / 3)),
@@ -55,7 +54,7 @@ app.on('ready', () => {
 
   // #region Overlay
   // Create the overlay window when opend as guardian
-  if (launchAsGuardian) {
+  if (isGuardian()) {
     let overlayWindows : BrowserWindow[] = [];
     screen.getAllDisplays().forEach((display) => {
       if (display.id !== screen.getPrimaryDisplay().id) {
@@ -106,6 +105,9 @@ app.on('ready', () => {
 
   // Setup the schtasks handlers
   setupSchtasksHandlers(app);
+
+  // Setup the guardian handlers
+  setupGuardianHandlers();
   // #endregion Api
 });
 // #endregion App

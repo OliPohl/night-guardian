@@ -19,7 +19,7 @@ export function getCurrentEnv() : number {
 // #region Guardian
 // Returns true if the application is started as Guardian
 export function isGuardian() : boolean {
-  return process.argv.includes('--guardian');
+  return process.argv.includes('--guardian') || getCurrentEnv() === 1;
 }
 
 // Returns the Guardian information from the command line arguments if it is started as Guardian
@@ -53,5 +53,10 @@ export function guardianToArg(guardian: Guardian) {
     '-eq', guardian.equation.toString(),
     '-ac', guardian.active.toString(),
   ].join(' ');
+}
+
+// Returns the current guardian
+export function getCurrentGuardian() : Guardian {
+  return argToGuardian(process.argv.join(' '));
 }
 // #endregion Guardian

@@ -26,5 +26,11 @@ contextBridge.exposeInMainWorld('api', {
   saveGuardian: (guardian: Guardian) => ipcRenderer.send('save-guardian', guardian),
   // Deletes a guardian from the backend
   deleteGuardian: (id: number) => ipcRenderer.send('delete-guardian', id),
+
+
+  // Tells the frontend if programm is currently launched as guardian
+  isGuardian: () => { return ipcRenderer.invoke('is-guardian') },
+  // Returns the current guardian if programm is currently launched as guardian
+  getGuardian: () => { return ipcRenderer.invoke('get-current-guardian') },
 });
 // #endregion Api

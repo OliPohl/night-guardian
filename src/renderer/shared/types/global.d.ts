@@ -27,6 +27,10 @@ declare global {
       saveGuardian: (guardian: Guardian) => void;
       // Deletes a guardian from the backend
       deleteGuardian: (id: number) => void;
+      // Returns the current guardian if programm is currently launched as guardian
+      isGuardian: () => Promise<boolean>;
+      // Returns the current guardian if programm is currently launched as guardian
+      getGuardian: () => Promise<Guardian>;
     };
   }
 }
