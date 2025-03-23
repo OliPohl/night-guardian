@@ -1,5 +1,5 @@
 /* #region General */
-#app {
+#editor {
   display: flex;
   flex-direction: row;
   flex: 1;

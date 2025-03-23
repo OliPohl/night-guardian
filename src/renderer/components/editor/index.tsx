@@ -1,16 +1,16 @@
 // #region Imports
 // Importing styles and components
-import './app.css';
+import './editor.css';
 import Sidebar from '../sidebar';
 import Display from '../display';
 // #endregion Imports
 
 
-// #region App
-function App() {
+// #region Editor
+function Editor() {
   // #region HTML
   return (
-    <div id="app">
+    <div id="editor">
       <Display />
       <Sidebar />
       <div id="fm-container" />
@@ -19,5 +19,5 @@ function App() {
   // #endregion HTML
 }
 
-export default App;
-// #endregion App
+export default Editor;
+// #endregion Editor

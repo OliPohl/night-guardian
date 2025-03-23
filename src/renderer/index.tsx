@@ -12,16 +12,26 @@ import './shared/styles/toggle.css'
 import './shared/styles/dropdown.css'
 
 // Importing components
+import Guardian from './components/guardian'
 import Titlebar from './components/titlebar'
-import App from './components/app'
+import Editor from './components/editor'
 // #endregion Imports
 
 
 // #region Render
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Titlebar />
-    <App />
-  </StrictMode>,
-)
+if (await window.api.isGuardian()) {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Guardian />
+    </StrictMode>,
+  )
+}
+else {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Titlebar />
+      <Editor />
+    </StrictMode>,
+  )
+}
 // #endregion Render
