@@ -25,7 +25,6 @@ const createTemplateXML = () => {
               </Principal>
             </Principals>
             <Settings>
-              #KYS#
               <AllowHardTerminate>false</AllowHardTerminate>
               <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
               <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
@@ -88,21 +87,24 @@ function fillInTemplateXML(template: string, key: string, value: string): string
 }
 
 // Create a guardian/enforcer xml
-export function createXML(date: string, name: string, kys: string, trigger: string, exe: string, args: string) {
+export function createXML(date: string, name: string, trigger: string, exe: string, args: string) {
   let xml = createTemplateXML();
   xml = fillInTemplateXML(xml, '#DATE#', date);
   xml = fillInTemplateXML(xml, '#NAME#', name);
-  xml = fillInTemplateXML(xml, '#KYS#', kys);
   xml = fillInTemplateXML(xml, '#TRIGGER#', trigger);
+  // TODO check if removing kys changed anything
   xml = fillInTemplateXML(xml, '#EXE#', exe);
   xml = fillInTemplateXML(xml, '#ARGS', args);
   return xml;
 }
 
 // Saves the xml to the temp folder
-export function saveXML(xml: string, fileName: string) {
+export async function saveXML(xml: string, fileName: string): Promise<string> {
   const filePath = path.join(getTempPath(), fileName.includes('.xml') ? fileName : `${fileName}.xml`);
-  fs.writeFileSync(filePath, xml);
-  return filePath;
+  return new Promise((resolve) => {
+    fs.writeFile(filePath, xml, () => {
+      resolve(filePath);
+    });
+  });
 }
 //#endregion XML

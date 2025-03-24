@@ -104,7 +104,7 @@ app.on('ready', () => {
   setupExternalLinks();
 
   // Setup the schtasks handlers
-  setupSchtasksHandlers(app);
+  setupSchtasksHandlers();
 
   // Setup the guardian handlers
   setupGuardianHandlers();
