@@ -17,7 +17,7 @@ export function getPreloadPath() {
     '/dist-electron/main/preload.cjs'
   )
 }
-
+//TODO: Fix pathing issues when project is build
 // Returns the exe path
 export function getExePath() {
   return path.join(app.getPath('exe'), 'night-guardian.exe');

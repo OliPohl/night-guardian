@@ -14,6 +14,6 @@ function Guardian() {
   );
   // #endregion HTML
 }
-
+// TODO: Create guardian frontend
 export default Guardian;
 // #endregion Editor
