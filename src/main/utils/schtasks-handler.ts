@@ -111,8 +111,8 @@ async function save(guardian: Guardian){
   const enforcerXML = createXML(getNextAlarmTime(guardian), getEnforcerName(guardian.id), createTriggerXML(getNextAlarmTime(guardian), guardian.repeats, kys, guardian.active), "shutdown /s /f", "");
 
   // Create and execute the guardian schtasks command
+  const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(guardianXML, 'NightGuardian')}" /f`;
   await new Promise((resolve) => {
-    const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(guardianXML, 'NightGuardian')}" /f`;
     executeSchtask(commandGuardian, (response) => {
       console.log(response);
       resolve(response);
@@ -120,8 +120,8 @@ async function save(guardian: Guardian){
   });
 
   // Create and execute the enforcer schtasks command
+  const commandEnforcer = `schtasks /create /tn "${getEnforcerName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(enforcerXML, 'NightGuardian')}" /f`;
   await new Promise((resolve) => {
-    const commandEnforcer = `schtasks /create /tn "${getEnforcerName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(enforcerXML, 'NightGuardian')}" /f`;
     executeSchtask(commandEnforcer, (response) => {
       console.log(response);
       resolve(response);
