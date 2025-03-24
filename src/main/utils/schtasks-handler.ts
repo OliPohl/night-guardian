@@ -95,7 +95,7 @@ async function fixPaths(guardians: Guardian[]){
     // if the path is wrong resave the guardian
     if (exePath !== getExePath()) {
       deleteGuardian(guardian.id);
-      save(guardian);
+      await save(guardian);
     }
   }
 }
@@ -110,20 +110,18 @@ async function save(guardian: Guardian){
   // Create the enforcer xml
   const enforcerXML = createXML(getNextAlarmTime(guardian), getEnforcerName(guardian.id), createTriggerXML(getNextAlarmTime(guardian), guardian.repeats, kys, guardian.active), "shutdown /s /f", "");
 
-  // Create the guardian schtasks command
-  const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(guardianXML, 'NightGuardian')}" /f`;
-  // Execute the guardian schtasks command
+  // Create and execute the guardian schtasks command
   await new Promise((resolve) => {
+    const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(guardianXML, 'NightGuardian')}" /f`;
     executeSchtask(commandGuardian, (response) => {
       console.log(response);
       resolve(response);
     });
   });
 
-  // Create the enforcer schtasks command
-  const commandEnforcer = `schtasks /create /tn "${getEnforcerName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(enforcerXML, 'NightGuardian')}" /f`;
-  // Execute the enforcer schtasks command
+  // Create and execute the enforcer schtasks command
   await new Promise((resolve) => {
+    const commandEnforcer = `schtasks /create /tn "${getEnforcerName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(enforcerXML, 'NightGuardian')}" /f`;
     executeSchtask(commandEnforcer, (response) => {
       console.log(response);
       resolve(response);
