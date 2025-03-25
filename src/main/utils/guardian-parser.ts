@@ -18,17 +18,17 @@ export function getEnforcerName(id: number, snoozeCount: number = 0) {
 
 // #region Alarm
 // Returns the guardians alarm  with snooze in [hour, min]
-export function getGuardianAlarmWithSnooze(guardian: Guardian) {
+export function getGuardianAlarmWithSnooze(guardian: Guardian, hOffset: number = 0) {
   const [alarmHour, alarmMinute] = guardian.alarm.split(':').map(Number);
-  const totalAlarmMinutes = alarmHour * 60 + alarmMinute;
+  const totalAlarmMinutes = alarmHour + hOffset * 60 + alarmMinute;
   const totalSnoozeMinutes = guardian.snooze * guardian.snoozeCount;
   const totalAlarmMinutesWithSnooze = totalAlarmMinutes + totalSnoozeMinutes;
   return [Math.floor(totalAlarmMinutesWithSnooze / 60), totalAlarmMinutesWithSnooze % 60];
 }
 
 // Returns the next alarm time in 2025-03-06T17:35:47 format
-export function getNextAlarmTime(guardian: Guardian) {
-  const [hour, min] = getGuardianAlarmWithSnooze(guardian);
+export function getNextAlarmTime(guardian: Guardian, hOffset: number = 0) {
+  const [hour, min] = getGuardianAlarmWithSnooze(guardian, hOffset);
   const today = new Date();
   const alarm = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hour, min);
   if(alarm.getTime() < today.getTime()) alarm.setDate(alarm.getDate() + 1);
@@ -39,16 +39,16 @@ export function getNextAlarmTime(guardian: Guardian) {
 
 // #region Warning
 // Returns the guardians warning time in [hour, min]
-export function getGuardianWarning(guardian: Guardian) {
-  const [alarmHour, alarmMinute] = getGuardianAlarmWithSnooze(guardian);
+export function getGuardianWarning(guardian: Guardian, hOffset: number = 0) {
+  const [alarmHour, alarmMinute] = getGuardianAlarmWithSnooze(guardian, hOffset);
   const totalAlarmMinutes = alarmHour * 60 + alarmMinute;
   const totalWarningMinutes = totalAlarmMinutes - guardian.warning;
   return [Math.floor(totalWarningMinutes / 60), totalWarningMinutes % 60];
 }
 
 // Returns the next warning time in 2025-03-06T17:35:47 format
-export function getNextWarningTime(guardian: Guardian) {
-  const [hour, min] = getGuardianWarning(guardian);
+export function getNextWarningTime(guardian: Guardian, hOffset: number = 0) {
+  const [hour, min] = getGuardianWarning(guardian, hOffset);
   const today = new Date();
   const warning = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hour, min);
   if(warning.getTime() < today.getTime()) warning.setDate(warning.getDate() + 1);

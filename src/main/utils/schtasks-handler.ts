@@ -33,16 +33,9 @@ export function setupSchtasksHandlers() {
     deleteAllGuardians();
   });
 
-  //TODO: create snooze function and ipcMain
-  // #region Snooze
-  // Snoozes the guardian
-  // ipcMain.on('snooze-guardian', (event, guardian: Guardian) => {
-  //   let snoozedGuardian = guardian;
-  //   snoozedGuardian.snoozeCount++;
-  //   ipcRenderer.send('save-guardian', snoozedGuardian);
-  //   //TODO: Disable current guardian/enforcer once
-  // });
-  // #endregion Snooze
+  ipcMain.on('snooze-guardian', (_event, guardian: Guardian) => {
+    snooze(guardian);
+  });
 }
 // #endregion Export
 
@@ -103,12 +96,12 @@ async function fixPaths(guardians: Guardian[]){
 
 
 // #region Save
-async function save(guardian: Guardian){
+async function save(guardian: Guardian, hOffset: number = 0){
   const kys = !(guardian.snoozeCount === 0);
   // Create the guardian xml
-  const guardianXML = createXML(getNextWarningTime(guardian), getGuardianName(guardian.id, guardian.snoozeCount), createTriggerXML(getNextWarningTime(guardian), guardian.repeats, kys, guardian.active), getExePath(), guardianToArg(guardian));
+  const guardianXML = createXML(getNextWarningTime(guardian, hOffset), getGuardianName(guardian.id, guardian.snoozeCount), createTriggerXML(getNextWarningTime(guardian, hOffset), guardian.repeats, kys, guardian.active), getExePath(), guardianToArg(guardian));
   // Create the enforcer xml
-  const enforcerXML = createXML(getNextAlarmTime(guardian), getEnforcerName(guardian.id), createTriggerXML(getNextAlarmTime(guardian), guardian.repeats, kys, guardian.active), "shutdown /s /f", "");
+  const enforcerXML = createXML(getNextAlarmTime(guardian, hOffset), getEnforcerName(guardian.id), createTriggerXML(getNextAlarmTime(guardian, hOffset), guardian.repeats, kys, guardian.active), "shutdown /s /f", "");
 
   // Create and execute the guardian schtasks command
   const commandGuardian = `schtasks /create /tn "${getGuardianName(guardian.id, guardian.snoozeCount)}" /xml "${await saveXML(guardianXML, 'NightGuardian')}" /f`;
@@ -159,6 +152,20 @@ async function deleteAllGuardians(){
 }
 // #endregion DeleteAll
 
+
+// #region Snooze
+// TODO: Check if this works
+async function snooze(guardian: Guardian){
+  let snoozedGuardian = guardian;
+  deleteGuardian(guardian.id);
+  if (guardian.snoozeCount === 0) {
+    await save(guardian, 24);
+  }
+
+  snoozedGuardian.snoozeCount++;
+  await save(snoozedGuardian);
+}
+// #endregion Snooze
 
 // #region Utils
 // Executes the given schtasks command
