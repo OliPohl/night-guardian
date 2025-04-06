@@ -6,7 +6,7 @@
 
 ## 🧪 Try the Previous Version
 
-This is the **second version** of **Night Guardian**, based on the original concept built in Python.
+This is the **second version** of **Night Guardian**, based on a concept built in Python.
 
 You can try the **Python version** of this project here:  👉 [Night Guardian v1](https://github.com/OliPohl/night-guardian-v1)
 
