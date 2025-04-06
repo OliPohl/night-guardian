@@ -16,12 +16,6 @@ Please keep in mind:
 
 ---
 
-## 🛠️ Status
-
-This version is still **in development**, with around **85% completion**. It's currently on hold and may be finished by **end of 2025**.
-
----
-
 ## 📜 License
 
 This project is licensed under the **MIT License**. You are free to:
@@ -30,3 +24,9 @@ This project is licensed under the **MIT License**. You are free to:
 - Sublicense the project
 
 For more details, please refer to the [LICENSE](./LICENSE).
+
+---
+
+## 🛠️ Status
+
+This version is still **in development**, with around **85% completion**. It's currently on hold and may be finished by **end of 2025**.
