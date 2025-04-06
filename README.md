@@ -8,7 +8,7 @@
 
 This is the **second version** of **Night Guardian**, based on a concept built in Python.
 
-You can try the **Python version** of this project here:  👉 [Night Guardian v1](https://github.com/OliPohl/night-guardian-v1)
+You can try the **Python version** of this project here:  👉 [Night Guardian v1](https://github.com/OliPohl/night-guardian-v1/releases/tag/NightGuardian)
 
 Please keep in mind:
 - This is just a concept of **Night Guardian** and is missing features.
